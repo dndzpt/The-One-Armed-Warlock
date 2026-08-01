@@ -55,7 +55,7 @@ export default function PatronAuth() {
     const nextEmail = String(form.get("email") || "").trim().toLowerCase();
     const token = String(form.get("token") || "").replace(/\D/g, "");
     setBusy(true); setMessage("");
-    const { error } = await supabase.auth.verifyOtp({ email: nextEmail, token, type: "email" });
+    const { error } = await supabase.auth.verifyOtp({ email: nextEmail, token, type: "signup" });
     setBusy(false);
     if (error) return setMessage(error.message);
     setMessage("Your place in the ledger is confirmed. Welcome, patron.");
@@ -70,6 +70,15 @@ export default function PatronAuth() {
     const { error } = await supabase.auth.signInWithPassword({ email: nextEmail, password });
     setBusy(false);
     if (error) return setMessage(error.message);
+  }
+
+  async function resendCode() {
+    if (!email) return setMessage("Enter the email address used to create your account first.");
+    setBusy(true); setMessage("");
+    const { error } = await supabase.auth.resend({ type: "signup", email: email.trim().toLowerCase() });
+    setBusy(false);
+    if (error) return setMessage(error.message);
+    setMessage("Yerma has sent a fresh six-digit code. Please use the newest email.");
   }
 
   async function logout() {
@@ -120,6 +129,7 @@ export default function PatronAuth() {
         <label>Email address<input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
         <label>Verification code<input className="code-input" name="token" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required /></label>
         <button className="primary-button" disabled={busy}>{busy ? "Checking the ledger…" : "Verify my account"}</button>
+        <button className="text-button" type="button" onClick={resendCode} disabled={busy}>Send a new code</button>
         <button className="text-button" type="button" onClick={() => changeView("register")}>Use a different address</button>
       </form>}
 

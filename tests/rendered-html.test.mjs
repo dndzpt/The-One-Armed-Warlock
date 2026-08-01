@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname = "/") {
@@ -28,4 +29,11 @@ test("renders the patron account entry page", async () => {
   assert.match(html, /Your chair is waiting/);
   assert.match(html, /Opening the ledger/);
   assert.doesNotMatch(html, /service_role|secret key/i);
+});
+
+test("verifies and resends password-signup codes as signup tokens", async () => {
+  const authSource = await readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8");
+  assert.match(authSource, /verifyOtp\(\{ email: nextEmail, token, type: "signup" \}\)/);
+  assert.match(authSource, /resend\(\{ type: "signup"/);
+  assert.doesNotMatch(authSource, /verifyOtp\(\{ email: nextEmail, token, type: "email" \}\)/);
 });
