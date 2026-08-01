@@ -35,5 +35,7 @@ test("verifies and resends password-signup codes as signup tokens", async () => 
   const authSource = await readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8");
   assert.match(authSource, /verifyOtp\(\{ email: nextEmail, token, type: "signup" \}\)/);
   assert.match(authSource, /resend\(\{ type: "signup"/);
+  assert.match(authSource, />Verify account<\/button>/);
+  assert.match(authSource, /email not confirmed/i);
   assert.doesNotMatch(authSource, /verifyOtp\(\{ email: nextEmail, token, type: "email" \}\)/);
 });

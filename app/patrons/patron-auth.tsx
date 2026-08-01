@@ -69,7 +69,14 @@ export default function PatronAuth() {
     setBusy(true); setMessage("");
     const { error } = await supabase.auth.signInWithPassword({ email: nextEmail, password });
     setBusy(false);
-    if (error) return setMessage(error.message);
+    if (error) {
+      if (/email not confirmed/i.test(error.message)) {
+        setEmail(nextEmail);
+        setView("verify");
+        return setMessage("Your account is waiting for verification. Request a fresh code below.");
+      }
+      return setMessage(error.message);
+    }
   }
 
   async function resendCode() {
@@ -112,6 +119,7 @@ export default function PatronAuth() {
       <div className="auth-tabs" role="tablist" aria-label="Patron account options">
         <button className={view === "register" ? "active" : ""} onClick={() => changeView("register")}>Register</button>
         <button className={view === "login" ? "active" : ""} onClick={() => changeView("login")}>Sign in</button>
+        <button className={view === "verify" ? "active" : ""} onClick={() => changeView("verify")}>Verify account</button>
       </div>
 
       {view === "register" && <form onSubmit={register}>
@@ -125,7 +133,7 @@ export default function PatronAuth() {
 
       {view === "verify" && <form onSubmit={verify}>
         <p className="form-eyebrow">One last step</p><h2>Check your raven-post</h2>
-        <p className="form-copy">Enter the six-digit code sent by Yerma.</p>
+        <p className="form-copy">Enter the six-digit code sent by Yerma, or request a fresh one for an account you already created.</p>
         <label>Email address<input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
         <label>Verification code<input className="code-input" name="token" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required /></label>
         <button className="primary-button" disabled={busy}>{busy ? "Checking the ledger…" : "Verify my account"}</button>
