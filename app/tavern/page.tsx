@@ -41,7 +41,7 @@ export default function TavernPage() {
 
       <section className="tavern-welcome">
         <p className="tavern-label">The house rules</p>
-        <div><h2>All roads are welcome here.</h2><p>The One-Armed Warlock is a meeting place for adventurers, wanderers, chroniclers, and the merely thirsty. The menu is open to every visitor. Patron accounts, Tavern Coins, and drink collecting will arrive in a later chapter.</p></div>
+        <div><h2>All roads are welcome here.</h2><p>The One-Armed Warlock is a meeting place for adventurers, wanderers, chroniclers, and the merely thirsty. The menu is open to every visitor. Patron accounts, Copper Coins, and drink collecting will arrive in a later chapter.</p></div>
         <ul aria-label="Tavern house rules"><li><span>01</span> Respect the house</li><li><span>02</span> Share the table</li><li><span>03</span> Leave a better tale</li></ul>
       </section>
 
@@ -52,7 +52,7 @@ export default function TavernPage() {
             <article className={`drink-card${drink.featured ? " featured" : ""}`} key={drink.name}>
               {drink.featured && <span className="featured-ribbon">Yerma recommends</span>}
               <div className="drink-mark" aria-hidden="true">{drink.mark}</div><p className="drink-kind">{drink.kind}</p><h3>{drink.name}</h3><p className="drink-description">{drink.description}</p>
-              <div className="drink-footer"><span><strong>{drink.price}</strong> Tavern Coins</span><span className="coming-soon">Service coming soon</span></div>
+              <div className="drink-footer"><span><strong>{drink.price}</strong> Copper Coins</span><span className="coming-soon">Service coming soon</span></div>
             </article>
           ))}
         </div>
