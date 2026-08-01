@@ -23,7 +23,7 @@ export default function TavernPage() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav aria-label="Tavern navigation">
-          <a href="#welcome">The Bar</a><a href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><Link href="/">Leave Tavern</Link>
+          <a href="#welcome">The Bar</a><a href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><Link href="/patrons">Patron Ledger</Link><Link href="/">Leave Tavern</Link>
         </nav>
       </header>
 
@@ -41,7 +41,7 @@ export default function TavernPage() {
 
       <section className="tavern-welcome">
         <p className="tavern-label">The house rules</p>
-        <div><h2>All roads are welcome here.</h2><p>The One-Armed Warlock is a meeting place for adventurers, wanderers, chroniclers, and the merely thirsty. The menu is open to every visitor. Patron accounts, Copper Coins, and drink collecting will arrive in a later chapter.</p></div>
+        <div><h2>All roads are welcome here.</h2><p>The One-Armed Warlock is a meeting place for adventurers, wanderers, chroniclers, and the merely thirsty. The menu is open to every visitor. Those ready to stay awhile may now add their name to the <Link href="/patrons">Patron Ledger</Link>.</p></div>
         <ul aria-label="Tavern house rules"><li><span>01</span> Respect the house</li><li><span>02</span> Share the table</li><li><span>03</span> Leave a better tale</li></ul>
       </section>
 
