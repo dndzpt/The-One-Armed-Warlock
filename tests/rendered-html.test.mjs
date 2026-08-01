@@ -19,7 +19,17 @@ test("renders the public tavern", async () => {
   const html = await response.text();
   assert.match(html, /Pull up a chair/);
   assert.match(html, /Patron Ledger/);
+  assert.match(html, /mobile-tavern-link/);
+  assert.match(html, /Join the Patron Ledger/);
   assert.match(html, /Copper Coins/);
+});
+
+test("keeps tavern and account creation reachable on mobile", async () => {
+  const response = await render("/");
+  const html = await response.text();
+  assert.match(html, /class="mobile-nav-link" href="\/tavern"/);
+  assert.match(html, /class="mobile-nav-link" href="\/patrons"/);
+  assert.match(html, /Create an account/);
 });
 
 test("renders the patron account entry page", async () => {

@@ -25,7 +25,8 @@ export default function Home() {
           <span>The One-Armed Warlock</span>
         </a>
         <nav aria-label="Main navigation">
-          <a href="/tavern">Tavern</a>
+          <a className="mobile-nav-link" href="/tavern">Tavern</a>
+          <a className="mobile-nav-link" href="/patrons">Join</a>
           <a href="#about">About</a>
           <a href="#explore">Explore</a>
           <a href="#connect">Connect</a>
@@ -40,7 +41,10 @@ export default function Home() {
             Welcome to The One-Armed Warlock — home to our party, our game
             world, and the tales we create together one roll at a time.
           </p>
-          <a className="button" href="/tavern">Enter the tavern <span aria-hidden="true">→</span></a>
+          <div className="hero-actions">
+            <a className="button" href="/tavern">Enter the tavern <span aria-hidden="true">→</span></a>
+            <a className="button secondary" href="/patrons">Create an account</a>
+          </div>
         </div>
         <div className="hero-mark" aria-hidden="true">
           <img src="/oaw-logo.png" alt="" />
