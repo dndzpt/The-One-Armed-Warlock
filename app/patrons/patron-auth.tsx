@@ -5,6 +5,8 @@ import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 
 type View = "register" | "verify" | "login";
+type CoinTransaction = { id: number; amount: number; transaction_type: string; description: string; created_at: string };
+type Purchase = { id: number; quantity: number; total_price_copper: number; status: string; purchased_at: string; drinks: { name: string } | null };
 
 export default function PatronAuth() {
   const [view, setView] = useState<View>("register");
@@ -13,6 +15,10 @@ export default function PatronAuth() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
+  const [profileName, setProfileName] = useState("");
+  const [transactions, setTransactions] = useState<CoinTransaction[]>([]);
+  const [purchases, setPurchases] = useState<Purchase[]>([]);
+  const [ledgerError, setLedgerError] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -22,6 +28,30 @@ export default function PatronAuth() {
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => setSession(nextSession));
     return () => data.subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!session) {
+      setProfileName(""); setTransactions([]); setPurchases([]); setLedgerError("");
+      return;
+    }
+    let active = true;
+    async function loadLedger() {
+      const [profileResult, transactionResult, purchaseResult] = await Promise.all([
+        supabase.from("patron_profiles").select("display_name").eq("id", session!.user.id).single(),
+        supabase.from("coin_transactions").select("id, amount, transaction_type, description, created_at").order("created_at", { ascending: false }).limit(20),
+        supabase.from("purchases").select("id, quantity, total_price_copper, status, purchased_at, drinks(name)").order("purchased_at", { ascending: false }).limit(20),
+      ]);
+      if (!active) return;
+      const error = profileResult.error || transactionResult.error || purchaseResult.error;
+      if (error) return setLedgerError("The ledger could not be opened just now. Please refresh and try again.");
+      setProfileName(profileResult.data.display_name);
+      setTransactions((transactionResult.data || []) as CoinTransaction[]);
+      setPurchases((purchaseResult.data || []) as unknown as Purchase[]);
+      setLedgerError("");
+    }
+    loadLedger();
+    return () => { active = false; };
+  }, [session]);
 
   function changeView(next: View) {
     setMessage("");
@@ -97,7 +127,8 @@ export default function PatronAuth() {
   if (!ready) return <section className="ledger-panel loading-ledger">Opening the ledger…</section>;
 
   if (session) {
-    const name = String(session.user.user_metadata?.display_name || "Patron");
+    const name = profileName || String(session.user.user_metadata?.display_name || "Patron");
+    const balance = transactions.reduce((total, transaction) => total + transaction.amount, 0);
     return (
       <section className="ledger-panel patron-profile" aria-live="polite">
         <p className="form-eyebrow">Private patron page</p>
@@ -107,8 +138,24 @@ export default function PatronAuth() {
           <div><dt>Patron name</dt><dd>{name}</dd></div>
           <div><dt>Registered email</dt><dd>{session.user.email}</dd></div>
           <div><dt>Standing</dt><dd className="standing">Verified patron</dd></div>
+          <div><dt>Copper Coin balance</dt><dd className="coin-balance">{balance}</dd></div>
         </dl>
-        <div className="profile-coming"><span>Coming next</span><strong>Profile details, Copper Coins, and collected drinks.</strong></div>
+        {ledgerError && <p className="auth-message" role="status">{ledgerError}</p>}
+        <div className="ledger-history">
+          <div><span>Coin ledger</span><strong>{transactions.length ? "Recent activity" : "No transactions yet"}</strong></div>
+          {transactions.map((transaction) => <article key={transaction.id}>
+            <p><strong>{transaction.description}</strong><small>{new Date(transaction.created_at).toLocaleDateString()}</small></p>
+            <b className={transaction.amount > 0 ? "credit" : "debit"}>{transaction.amount > 0 ? "+" : ""}{transaction.amount}</b>
+          </article>)}
+        </div>
+        <div className="ledger-history purchase-history">
+          <div><span>Purchase records</span><strong>{purchases.length ? "From the bar" : "No purchases yet"}</strong></div>
+          {purchases.map((purchase) => <article key={purchase.id}>
+            <p><strong>{purchase.quantity} × {purchase.drinks?.name || "Tavern drink"}</strong><small>{new Date(purchase.purchased_at).toLocaleDateString()} · {purchase.status}</small></p>
+            <b className="debit">−{purchase.total_price_copper}</b>
+          </article>)}
+        </div>
+        <div className="profile-coming"><span>Database connected</span><strong>Balances and records now come directly from Yerma’s ledger.</strong></div>
         <button className="secondary-button" onClick={logout} disabled={busy}>Sign out</button>
       </section>
     );
