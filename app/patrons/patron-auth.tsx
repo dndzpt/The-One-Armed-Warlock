@@ -46,7 +46,7 @@ export default function PatronAuth() {
     if (error) return setMessage(error.message);
     setEmail(nextEmail);
     setView("verify");
-    setMessage("Yerma has sent your six-digit code. Check your inbox and spam folder.");
+    setMessage("Yerma has sent your verification code. Check your inbox and spam folder.");
   }
 
   async function verify(event: FormEvent<HTMLFormElement>) {
@@ -85,7 +85,7 @@ export default function PatronAuth() {
     const { error } = await supabase.auth.resend({ type: "signup", email: email.trim().toLowerCase() });
     setBusy(false);
     if (error) return setMessage(error.message);
-    setMessage("Yerma has sent a fresh six-digit code. Please use the newest email.");
+    setMessage("Yerma has sent a fresh verification code. Please use the newest email.");
   }
 
   async function logout() {
@@ -133,9 +133,9 @@ export default function PatronAuth() {
 
       {view === "verify" && <form onSubmit={verify}>
         <p className="form-eyebrow">One last step</p><h2>Check your raven-post</h2>
-        <p className="form-copy">Enter the six-digit code sent by Yerma, or request a fresh one for an account you already created.</p>
+        <p className="form-copy">Enter the complete verification code sent by Yerma, or request a fresh one for an account you already created.</p>
         <label>Email address<input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
-        <label>Verification code<input className="code-input" name="token" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required /></label>
+        <label>Verification code<input className="code-input" name="token" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6,10}" minLength={6} maxLength={10} required /></label>
         <button className="primary-button" disabled={busy}>{busy ? "Checking the ledger…" : "Verify my account"}</button>
         <button className="text-button" type="button" onClick={resendCode} disabled={busy}>Send a new code</button>
         <button className="text-button" type="button" onClick={() => changeView("register")}>Use a different address</button>

@@ -38,4 +38,6 @@ test("verifies and resends password-signup codes as signup tokens", async () => 
   assert.match(authSource, />Verify account<\/button>/);
   assert.match(authSource, /email not confirmed/i);
   assert.doesNotMatch(authSource, /verifyOtp\(\{ email: nextEmail, token, type: "email" \}\)/);
+  assert.match(authSource, /pattern="\[0-9\]\{6,10\}"/);
+  assert.doesNotMatch(authSource, /six-digit/i);
 });
