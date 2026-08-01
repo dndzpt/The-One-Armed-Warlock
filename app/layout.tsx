@@ -14,8 +14,8 @@ const sans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "OAW | Our Adventure Awaits",
-  description: "The home of the OAW party, campaign world, and shared adventures.",
+  title: "The One-Armed Warlock",
+  description: "The home of The One-Armed Warlock party, campaign world, and shared adventures.",
   icons: { icon: "/oaw-logo.png", shortcut: "/oaw-logo.png" },
 };
 

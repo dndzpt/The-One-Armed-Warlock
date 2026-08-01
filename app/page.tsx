@@ -20,9 +20,9 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="OAW home">
-          <img src="/oaw-logo.png" alt="OAW" />
-          <span>OAW</span>
+        <a className="brand" href="#top" aria-label="The One-Armed Warlock home">
+          <img src="/oaw-logo.png" alt="The One-Armed Warlock logo" />
+          <span>The One-Armed Warlock</span>
         </a>
         <nav aria-label="Main navigation">
           <a href="#about">About</a>
@@ -36,8 +36,8 @@ export default function Home() {
           <p className="eyebrow">An ongoing tabletop adventure</p>
           <h1>Every great story starts around a table.</h1>
           <p className="intro">
-            Welcome to OAW — home to our party, our game world, and the tales we
-            create together one roll at a time.
+            Welcome to The One-Armed Warlock — home to our party, our game
+            world, and the tales we create together one roll at a time.
           </p>
           <a className="button" href="#explore">Enter the archive <span aria-hidden="true">→</span></a>
         </div>
@@ -52,9 +52,9 @@ export default function Home() {
         <div>
           <h2>A shared world, built together.</h2>
           <p>
-            This is the future home of everything OAW: character stories,
-            campaign lore, session recaps, artwork, and useful links for the
-            group. The archive will grow as the adventure does.
+            This is the future home of everything The One-Armed Warlock:
+            character stories, campaign lore, session recaps, artwork, and
+            useful links for the group. The archive will grow as the adventure does.
           </p>
         </div>
       </section>
@@ -86,9 +86,9 @@ export default function Home() {
       </section>
 
       <footer>
-        <div className="footer-brand"><img src="/oaw-logo.png" alt="" /><span>OAW</span></div>
+        <div className="footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div>
         <p>Built for the party. Made for the story.</p>
-        <p>© {new Date().getFullYear()} OAW</p>
+        <p>© {new Date().getFullYear()} The One-Armed Warlock</p>
       </footer>
     </main>
   );
