@@ -5,9 +5,9 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans), sans-serif; }
 a { color: inherit; text-decoration: none; }
-main { overflow: hidden; }
+main { overflow-x: clip; }
 
-.site-header { height: 96px; padding: 0 clamp(24px, 6vw, 88px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.site-header { height: 96px; padding: 0 clamp(24px, 6vw, 88px); position: sticky; z-index: 50; top: 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: rgba(244, 240, 231, .94); backdrop-filter: blur(14px); }
 .brand, .footer-brand { display: flex; align-items: center; gap: 12px; font-family: var(--font-display), serif; font-size: 20px; font-weight: 700; letter-spacing: .035em; }
 .brand img { width: 50px; height: 50px; object-fit: contain; }
 nav { display: flex; gap: clamp(18px, 4vw, 48px); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }

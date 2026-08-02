@@ -32,6 +32,17 @@ test("keeps tavern and account creation reachable on mobile", async () => {
   assert.match(html, /Create an account/);
 });
 
+test("keeps navigation visible while pages scroll", async () => {
+  const [globalCss, tavernCss, patronsCss] = await Promise.all([
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/tavern.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/patrons/patrons.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(globalCss, /\.site-header[^}]*position:\s*sticky/);
+  assert.match(tavernCss, /\.tavern-header\{position:fixed/);
+  assert.match(patronsCss, /\.patrons-header\{[^}]*position:sticky/);
+});
+
 test("renders the patron account entry page", async () => {
   const response = await render("/patrons");
   assert.equal(response.status, 200);
