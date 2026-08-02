@@ -30,7 +30,9 @@ test("keeps tavern and account creation reachable on mobile", async () => {
   const html = await response.text();
   assert.match(html, /class="mobile-nav-link" href="\/tavern"/);
   assert.match(html, /class="mobile-nav-link" href="\/patrons"/);
-  assert.match(html, /Create an account/);
+  assert.doesNotMatch(html, /Create an account/);
+  assert.match(html, /class="button secondary" href="\/patrons">Join<\/a>/);
+  assert.match(html, /Explore[\s\S]*Join[\s\S]*Connect/);
   assert.match(html, /Welcome to the Guild Hall/);
 });
 

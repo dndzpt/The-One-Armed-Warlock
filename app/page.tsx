@@ -26,9 +26,9 @@ export default function Home() {
         </a>
         <nav aria-label="Main navigation">
           <a className="mobile-nav-link" href="/tavern">Tavern</a>
-          <a className="mobile-nav-link" href="/patrons">Join</a>
           <a href="#about">About</a>
           <a href="#explore">Explore</a>
+          <a className="mobile-nav-link" href="/patrons">Join</a>
           <a href="#connect">Connect</a>
         </nav>
       </header>
@@ -43,7 +43,7 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="button" href="/tavern">Enter the tavern <span aria-hidden="true">→</span></a>
-            <a className="button secondary" href="/patrons">Create an account</a>
+            <a className="button secondary" href="/patrons">Join</a>
           </div>
         </div>
         <div className="hero-mark" aria-hidden="true">
