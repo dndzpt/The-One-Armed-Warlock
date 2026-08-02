@@ -39,8 +39,11 @@ test("keeps navigation visible while pages scroll", async () => {
     readFile(new URL("../app/patrons/patrons.css", import.meta.url), "utf8"),
   ]);
   assert.match(globalCss, /\.site-header[^}]*position:\s*sticky/);
+  assert.match(globalCss, /background:\s*rgba\(244, 240, 231, \.32\)/);
   assert.match(tavernCss, /\.tavern-header\{position:fixed/);
+  assert.match(tavernCss, /background:#08050352/);
   assert.match(patronsCss, /\.patrons-header\{[^}]*position:sticky/);
+  assert.match(patronsCss, /background:#0b070552/);
 });
 
 test("renders the patron account entry page", async () => {
