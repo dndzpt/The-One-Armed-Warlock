@@ -7,7 +7,7 @@ import "./tavern.css";
 
 export const metadata: Metadata = {
   title: "The Tavern | The One-Armed Warlock",
-  description: "Step inside The One-Armed Warlock, meet chief barmaid Yerma, and browse the first pours on the tavern menu.",
+  description: "Step inside The One-Armed Warlock, meet Hearthmother Yerma, and browse the first pours on the tavern menu.",
 };
 
 const drinks = [
@@ -40,7 +40,7 @@ export default function TavernPage() {
       </header>
 
       <section className="tavern-hero" id="welcome">
-        <img className="yerma-image" src="/yerma-tavern.webp" alt="Yerma, chief barmaid of The One-Armed Warlock, standing behind the candlelit bar" />
+        <img className="yerma-image" src="/yerma-tavern.webp" alt="Yerma, Hearthmother of The One-Armed Warlock, standing behind the candlelit bar" />
         <div className="tavern-shade" />
         <div className="tavern-hero-copy">
           <p className="tavern-kicker">Ale • Stories • Shelter</p>
@@ -48,7 +48,7 @@ export default function TavernPage() {
           <p>Beyond the oak door waits a warm hearth, a full bar, and a room where every traveller’s tale is worth the telling.</p>
           <div className="tavern-actions"><a className="tavern-button" href="#menu">See what’s pouring <span aria-hidden="true">↓</span></a><PatronNavigationLink className="tavern-button patron-button" signedOutLabel="Join the Patron Ledger" /></div>
         </div>
-        <div className="yerma-card"><span>Chief Barmaid</span><strong>Yerma</strong><p>“Coin on the bar, trouble at the door, and we’ll get along famously.”</p></div>
+        <div className="yerma-card"><span>Hearthmother</span><strong>Yerma</strong><p>“Coin on the bar, trouble at the door, and we’ll get along famously.”</p></div>
       </section>
 
       <section className="tavern-welcome">
