@@ -57,6 +57,7 @@ test("keeps navigation visible while pages scroll", async () => {
   assert.match(globalCss, /background:\s*rgba\(244, 240, 231, \.32\)/);
   assert.match(tavernCss, /\.tavern-header\{position:fixed/);
   assert.match(tavernCss, /background:#08050352/);
+  assert.match(tavernCss, /\.tavern-header \.mobile-navigation-panel\{display:grid\}/);
   assert.match(patronsCss, /\.patrons-header\{[^}]*position:sticky/);
   assert.match(patronsCss, /background:#0b070552/);
 });
