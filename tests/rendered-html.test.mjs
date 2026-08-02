@@ -81,3 +81,19 @@ test("verifies and resends password-signup codes as signup tokens", async () => 
   assert.match(authSource, /pattern="\[0-9\]\{6,10\}"/);
   assert.doesNotMatch(authSource, /six-digit/i);
 });
+
+test("loads analytics only after a visitor accepts", async () => {
+  const [layoutSource, consentSource] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/analytics-consent.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(layoutSource, /<AnalyticsConsent \/>/);
+  assert.match(consentSource, /G-9FQTQKMD71/);
+  assert.match(consentSource, /analytics_storage: "granted"/);
+  assert.match(consentSource, /ad_storage: "denied"/);
+  assert.match(consentSource, /window\.localStorage\.setItem/);
+  assert.match(consentSource, /Accept analytics/);
+  assert.match(consentSource, /Decline/);
+  assert.match(consentSource, /Privacy choices/);
+  assert.ok(consentSource.indexOf('nextChoice === "accepted"') < consentSource.lastIndexOf("initialiseAnalytics();"));
+});

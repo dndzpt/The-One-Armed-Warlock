@@ -66,6 +66,17 @@ footer { min-height: 150px; padding: 35px clamp(24px, 6vw, 88px); display: grid;
 .footer-brand img { width: 38px; height: 38px; }
 footer p:last-child { text-align: right; }
 
+.analytics-consent { position: fixed; z-index: 100; right: 24px; bottom: 24px; left: 24px; max-width: 940px; margin: 0 auto; padding: 26px 28px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 28px; color: #f4f0e7; background: rgba(23, 22, 17, .97); border: 1px solid rgba(244, 240, 231, .2); box-shadow: 0 20px 60px rgba(0, 0, 0, .32); backdrop-filter: blur(18px); }
+.analytics-consent-label { margin: 0 0 8px; color: #d7836f; font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.analytics-consent h2 { font-size: 32px; letter-spacing: -.02em; }
+.analytics-consent div > p:last-child { max-width: 620px; margin: 12px 0 0; color: #c7c0b4; font-size: 14px; line-height: 1.6; }
+.analytics-consent-actions { display: flex; gap: 9px; }
+.analytics-consent button, .analytics-settings { border: 1px solid rgba(244, 240, 231, .45); padding: 12px 16px; color: #f4f0e7; background: transparent; font: inherit; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+.analytics-consent .analytics-accept { border-color: #a4422d; background: #a4422d; }
+.analytics-consent button:hover, .analytics-consent button:focus-visible { border-color: #d7836f; background: #d7836f; }
+.analytics-settings { position: fixed; z-index: 49; right: 14px; bottom: 14px; padding: 8px 10px; border-color: rgba(90, 79, 61, .25); color: #6d675b; background: rgba(244, 240, 231, .82); font-size: 8px; backdrop-filter: blur(10px); }
+.analytics-settings:hover, .analytics-settings:focus-visible { color: #171611; border-color: #a4422d; }
+
 @media (max-width: 820px) {
   .site-header { height: 78px; }
   .brand img { width: 42px; height: 42px; }
@@ -92,6 +103,9 @@ footer p:last-child { text-align: right; }
   .mobile-navigation-panel { padding-inline: 18px; }
   .hero-actions { align-items: stretch; flex-direction: column; }
   .hero-actions .button { justify-content: space-between; }
+  .analytics-consent { right: 12px; bottom: 12px; left: 12px; padding: 22px; grid-template-columns: 1fr; align-items: stretch; gap: 20px; }
+  .analytics-consent-actions { flex-direction: column; }
+  .analytics-consent button { width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
