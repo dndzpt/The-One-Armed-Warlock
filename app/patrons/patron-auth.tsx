@@ -18,6 +18,8 @@ export default function PatronAuth() {
   const [profileName, setProfileName] = useState("");
   const [transactions, setTransactions] = useState<CoinTransaction[]>([]);
   const [purchases, setPurchases] = useState<Purchase[]>([]);
+  const [balance, setBalance] = useState(0);
+  const [allowanceMessage, setAllowanceMessage] = useState("");
   const [ledgerError, setLedgerError] = useState("");
 
   useEffect(() => {
@@ -31,20 +33,26 @@ export default function PatronAuth() {
 
   useEffect(() => {
     if (!session) {
-      setProfileName(""); setTransactions([]); setPurchases([]); setLedgerError("");
+      setProfileName(""); setTransactions([]); setPurchases([]); setBalance(0); setAllowanceMessage(""); setLedgerError("");
       return;
     }
     let active = true;
     async function loadLedger() {
+      const allowanceResult = await supabase.rpc("claim_daily_allowance");
       const [profileResult, transactionResult, purchaseResult] = await Promise.all([
         supabase.from("patron_profiles").select("display_name").eq("id", session!.user.id).single(),
         supabase.from("coin_transactions").select("id, amount, transaction_type, description, created_at").order("created_at", { ascending: false }).limit(20),
         supabase.from("purchases").select("id, quantity, total_price_copper, status, purchased_at, drinks(name)").order("purchased_at", { ascending: false }).limit(20),
       ]);
       if (!active) return;
-      const error = profileResult.error || transactionResult.error || purchaseResult.error;
+      const error = allowanceResult.error || profileResult.error || transactionResult.error || purchaseResult.error;
       if (error) return setLedgerError("The ledger could not be opened just now. Please refresh and try again.");
+      const allowance = allowanceResult.data?.[0] as { balance: number; awarded: boolean; amount: number } | undefined;
       setProfileName(profileResult.data.display_name);
+      setBalance(allowance?.balance || 0);
+      setAllowanceMessage(allowance?.awarded
+        ? "Yerma has added today’s 10 Copper Coins to your purse."
+        : "Today’s allowance is already safely tucked into your purse.");
       setTransactions((transactionResult.data || []) as CoinTransaction[]);
       setPurchases((purchaseResult.data || []) as unknown as Purchase[]);
       setLedgerError("");
@@ -128,7 +136,6 @@ export default function PatronAuth() {
 
   if (session) {
     const name = profileName || String(session.user.user_metadata?.display_name || "Patron");
-    const balance = transactions.reduce((total, transaction) => total + transaction.amount, 0);
     return (
       <section className="ledger-panel patron-profile" aria-live="polite">
         <p className="form-eyebrow">Private patron page</p>
@@ -140,6 +147,7 @@ export default function PatronAuth() {
           <div><dt>Standing</dt><dd className="standing">Verified patron</dd></div>
           <div><dt>Copper Coin balance</dt><dd className="coin-balance">{balance}</dd></div>
         </dl>
+        {allowanceMessage && <p className="allowance-message" role="status">{allowanceMessage}</p>}
         {ledgerError && <p className="auth-message" role="status">{ledgerError}</p>}
         <div className="ledger-history">
           <div><span>Coin ledger</span><strong>{transactions.length ? "Recent activity" : "No transactions yet"}</strong></div>

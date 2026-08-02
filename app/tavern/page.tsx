@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import MobileNavigation from "../mobile-navigation";
 import PatronNavigationLink from "../patron-navigation-link";
+import DrinkPurchaseButton from "./drink-purchase-button";
 import "./tavern.css";
 
 export const metadata: Metadata = {
@@ -15,6 +16,8 @@ const drinks = [
   { mark: "MC", name: "Moondrop Cider", kind: "Orchard cider", price: 4, description: "Crisp silver apples, elderflower, and just enough sparkle to invite another cup." },
   { mark: "YR", name: "Yerma’s Reserve", kind: "House spirit", price: 8, description: "A smooth amber spirit from the locked shelf. Yerma decides when it is served." },
 ];
+
+const drinkIds = { IA: 1, MH: 2, MC: 3, YR: 4 } as const;
 
 export default function TavernPage() {
   return (
@@ -61,7 +64,8 @@ export default function TavernPage() {
             <article className={`drink-card${drink.featured ? " featured" : ""}`} key={drink.name}>
               {drink.featured && <span className="featured-ribbon">Yerma recommends</span>}
               <div className="drink-mark" aria-hidden="true">{drink.mark}</div><p className="drink-kind">{drink.kind}</p><h3>{drink.name}</h3><p className="drink-description">{drink.description}</p>
-              <div className="drink-footer"><span><strong>{drink.price}</strong> Copper Coins</span><span className="coming-soon">Service coming soon</span></div>
+              <div className="drink-footer"><span><strong>{drink.price}</strong> Copper Coins</span></div>
+              <DrinkPurchaseButton drinkId={drinkIds[drink.mark as keyof typeof drinkIds]} />
             </article>
           ))}
         </div>

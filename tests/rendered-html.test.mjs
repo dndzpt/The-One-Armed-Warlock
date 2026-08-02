@@ -67,6 +67,22 @@ test("shows My Ledger in site navigation for signed-in patrons", async () => {
   assert.match(tavernSource, /signedOutLabel="Join the Patron Ledger"/);
 });
 
+test("awards daily Copper Coins and protects Tavern purchases", async () => {
+  const [ledgerSource, navigationSource, purchaseSource, tavernSource] = await Promise.all([
+    readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/patron-navigation-link.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/drink-purchase-button.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/page.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(ledgerSource, /rpc\("claim_daily_allowance"\)/);
+  assert.match(ledgerSource, /today’s 10 Copper Coins/);
+  assert.match(navigationSource, /rpc\("claim_daily_allowance"\)/);
+  assert.match(purchaseSource, /rpc\("purchase_drink"/);
+  assert.match(purchaseSource, /Not enough Copper Coins/);
+  assert.match(tavernSource, /<DrinkPurchaseButton drinkId=/);
+  assert.doesNotMatch(tavernSource, /Service coming soon/);
+});
+
 test("keeps navigation visible while pages scroll", async () => {
   const [globalCss, tavernCss, patronsCss] = await Promise.all([
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
