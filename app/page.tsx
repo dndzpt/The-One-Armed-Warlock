@@ -1,3 +1,5 @@
+import MobileNavigation from "./mobile-navigation";
+
 const sections = [
   {
     number: "01",
@@ -25,12 +27,19 @@ export default function Home() {
           <span>The One-Armed Warlock</span>
         </a>
         <nav aria-label="Main navigation">
-          <a className="mobile-nav-link" href="/tavern">Tavern</a>
+          <a href="/tavern">Tavern</a>
           <a href="#about">About</a>
           <a href="#explore">Explore</a>
-          <a className="mobile-nav-link" href="/patrons">Join</a>
+          <a href="/patrons">Join</a>
           <a href="#connect">Connect</a>
         </nav>
+        <MobileNavigation items={[
+          { href: "/tavern", label: "Tavern" },
+          { href: "#about", label: "About" },
+          { href: "#explore", label: "Explore" },
+          { href: "/patrons", label: "Join" },
+          { href: "#connect", label: "Connect" },
+        ]} />
       </header>
 
       <section className="hero" id="top">

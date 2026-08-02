@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import MobileNavigation from "../mobile-navigation";
 import "./tavern.css";
 
 export const metadata: Metadata = {
@@ -23,8 +24,15 @@ export default function TavernPage() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav aria-label="Tavern navigation">
-          <a href="#welcome">The Bar</a><a className="mobile-tavern-link" href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><Link className="mobile-tavern-link" href="/patrons">Join</Link><Link href="/">Guild Hall</Link>
+          <a href="#welcome">The Bar</a><a href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><Link href="/patrons">Join</Link><Link href="/">Guild Hall</Link>
         </nav>
+        <MobileNavigation theme="tavern" items={[
+          { href: "#welcome", label: "The Bar" },
+          { href: "#menu", label: "Drinks" },
+          { href: "#noticeboard", label: "Noticeboard" },
+          { href: "/patrons", label: "Join" },
+          { href: "/", label: "Guild Hall" },
+        ]} />
       </header>
 
       <section className="tavern-hero" id="welcome">

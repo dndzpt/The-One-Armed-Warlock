@@ -20,7 +20,8 @@ test("renders the public tavern", async () => {
   assert.match(html, /The Guild Hall/);
   assert.match(html, /Pull up a chair/);
   assert.match(html, /Patron Ledger/);
-  assert.match(html, /mobile-tavern-link/);
+  assert.match(html, /aria-label="Tavern mobile navigation"/);
+  assert.match(html, /Navigation/);
   assert.match(html, /Join the Patron Ledger/);
   assert.match(html, /Copper Coins/);
 });
@@ -28,12 +29,22 @@ test("renders the public tavern", async () => {
 test("keeps tavern and account creation reachable on mobile", async () => {
   const response = await render("/");
   const html = await response.text();
-  assert.match(html, /class="mobile-nav-link" href="\/tavern"/);
-  assert.match(html, /class="mobile-nav-link" href="\/patrons"/);
+  assert.match(html, /aria-label="Main mobile navigation"/);
+  assert.match(html, /mobile-guild-navigation/);
+  assert.match(html, /href="\/tavern">Tavern/);
+  assert.match(html, /href="\/patrons">Join/);
   assert.doesNotMatch(html, /Create an account/);
   assert.match(html, /class="button secondary" href="\/patrons">Join<\/a>/);
   assert.match(html, /Explore[\s\S]*Join[\s\S]*Connect/);
   assert.match(html, /Welcome to the Guild Hall/);
+});
+
+test("mobile navigation expands accessibly and closes after selection", async () => {
+  const source = await readFile(new URL("../app/mobile-navigation.tsx", import.meta.url), "utf8");
+  assert.match(source, /aria-expanded=\{open\}/);
+  assert.match(source, /setOpen\(\(current\) => !current\)/);
+  assert.match(source, /onClick=\{\(\) => setOpen\(false\)\}/);
+  assert.match(source, /event\.key === "Escape"/);
 });
 
 test("keeps navigation visible while pages scroll", async () => {

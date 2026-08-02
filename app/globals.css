@@ -14,6 +14,15 @@ nav { display: flex; gap: clamp(18px, 4vw, 48px); font-size: 13px; letter-spacin
 nav a { position: relative; }
 nav a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -7px; height: 1px; background: var(--rust); transition: right .2s; }
 nav a:hover::after, nav a:focus-visible::after { right: 0; }
+.mobile-navigation { display: none; }
+.mobile-navigation-trigger { border: 0; padding: 12px 0; display: flex; align-items: center; gap: 9px; background: transparent; color: inherit; font: inherit; font-size: 11px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; cursor: pointer; }
+.mobile-navigation-chevron { display: inline-block; font-size: 18px; line-height: .5; transform: translateY(-2px); transition: transform .2s ease; }
+.mobile-navigation-trigger[aria-expanded="true"] .mobile-navigation-chevron { transform: translateY(2px) rotate(180deg); }
+.mobile-navigation-panel { position: absolute; z-index: 60; top: 100%; left: 0; right: 0; display: grid; gap: 0; padding: 8px clamp(24px, 6vw, 88px) 18px; border-bottom: 1px solid rgba(90, 79, 61, .25); background: rgba(244, 240, 231, .94); box-shadow: 0 18px 30px rgba(23, 22, 17, .12); backdrop-filter: blur(20px) saturate(1.1); }
+.mobile-navigation-panel[hidden] { display: none; }
+.mobile-navigation-panel a { padding: 14px 0; border-bottom: 1px solid rgba(90, 79, 61, .16); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.mobile-navigation-panel a:last-child { border-bottom: 0; }
+.mobile-navigation-panel a::after { display: none; }
 
 .hero { min-height: 720px; padding: 90px clamp(24px, 8vw, 130px); display: grid; grid-template-columns: 1.35fr .65fr; align-items: center; gap: 80px; position: relative; }
 .hero::before { content: ""; width: 420px; height: 420px; border: 1px solid var(--line); border-radius: 50%; position: absolute; right: -170px; top: 70px; }
@@ -62,8 +71,8 @@ footer p:last-child { text-align: right; }
   .brand img { width: 42px; height: 42px; }
   .brand { font-size: 16px; }
   nav { gap: 18px; }
-  .site-header nav a { display: none; }
-  .site-header nav .mobile-nav-link { display: block; }
+  .site-header > nav { display: none; }
+  .mobile-navigation { display: block; }
   .hero { min-height: auto; padding-top: 70px; grid-template-columns: 1fr; gap: 55px; }
   .hero-mark { display: none; }
   .about { grid-template-columns: 1fr; gap: 25px; }
@@ -80,6 +89,7 @@ footer p:last-child { text-align: right; }
   .site-header { padding: 0 18px; }
   .brand span { display: none; }
   .site-header nav { gap: 15px; font-size: 11px; }
+  .mobile-navigation-panel { padding-inline: 18px; }
   .hero-actions { align-items: stretch; flex-direction: column; }
   .hero-actions .button { justify-content: space-between; }
 }
