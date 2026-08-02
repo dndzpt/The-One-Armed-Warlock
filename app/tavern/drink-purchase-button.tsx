@@ -6,6 +6,7 @@ import { supabase } from "../lib/supabase";
 import { drinkQuotes, enjoymentLabels } from "./drink-quotes";
 
 type PurchaseResult = { balance: number; tavern_message: string };
+const UNLIMITED_COPPER = 2147483647;
 
 function randomItem<T>(items: T[]): T {
   const values = new Uint32Array(1);
@@ -49,7 +50,9 @@ export default function DrinkPurchaseButton({ drinkId, drinkName }: { drinkId: n
       return;
     }
     const result = (data?.[0] || null) as PurchaseResult | null;
-    setMessage(result ? `${result.balance} Copper Coins remain.` : "Yerma has entered your order.");
+    setMessage(result
+      ? result.balance === UNLIMITED_COPPER ? "Unlimited Copper Coins remain." : `${result.balance} Copper Coins remain.`
+      : "Yerma has entered your order.");
     setYermaQuote(randomItem(drinkQuotes[drinkId]));
     setEnjoymentLabel(randomItem(enjoymentLabels));
   }

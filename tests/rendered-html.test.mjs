@@ -81,6 +81,10 @@ test("awards daily Copper Coins and protects Tavern purchases", async () => {
   assert.match(navigationSource, /rpc\("claim_daily_allowance"\)/);
   assert.match(purchaseSource, /rpc\("purchase_drink"/);
   assert.match(purchaseSource, /Not enough Copper Coins/);
+  assert.match(ledgerSource, /\.eq\("patron_id", session!\.user\.id\)/);
+  assert.equal((ledgerSource.match(/\.eq\("patron_id", session!\.user\.id\)/g) || []).length, 2);
+  assert.match(ledgerSource, /balance === UNLIMITED_COPPER \? "Unlimited" : balance/);
+  assert.match(purchaseSource, /Unlimited Copper Coins remain/);
   assert.match(tavernSource, /<DrinkPurchaseButton drinkId=/);
   assert.doesNotMatch(tavernSource, /Service coming soon/);
 });

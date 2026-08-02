@@ -7,6 +7,7 @@ import { supabase } from "../lib/supabase";
 type View = "register" | "verify" | "login" | "forgot";
 type CoinTransaction = { id: number; amount: number; transaction_type: string; description: string; created_at: string };
 type Purchase = { id: number; quantity: number; total_price_copper: number; status: string; purchased_at: string; drinks: { name: string } | null };
+const UNLIMITED_COPPER = 2147483647;
 
 export default function PatronAuth() {
   const [view, setView] = useState<View>("register");
@@ -46,8 +47,8 @@ export default function PatronAuth() {
       const allowanceResult = await supabase.rpc("claim_daily_allowance");
       const [profileResult, transactionResult, purchaseResult] = await Promise.all([
         supabase.from("patron_profiles").select("display_name").eq("id", session!.user.id).single(),
-        supabase.from("coin_transactions").select("id, amount, transaction_type, description, created_at").order("created_at", { ascending: false }).limit(20),
-        supabase.from("purchases").select("id, quantity, total_price_copper, status, purchased_at, drinks(name)").order("purchased_at", { ascending: false }).limit(20),
+        supabase.from("coin_transactions").select("id, amount, transaction_type, description, created_at").eq("patron_id", session!.user.id).order("created_at", { ascending: false }).limit(20),
+        supabase.from("purchases").select("id, quantity, total_price_copper, status, purchased_at, drinks(name)").eq("patron_id", session!.user.id).order("purchased_at", { ascending: false }).limit(20),
       ]);
       if (!active) return;
       const error = allowanceResult.error || profileResult.error || transactionResult.error || purchaseResult.error;
@@ -55,9 +56,11 @@ export default function PatronAuth() {
       const allowance = allowanceResult.data?.[0] as { balance: number; awarded: boolean; amount: number } | undefined;
       setProfileName(profileResult.data.display_name);
       setBalance(allowance?.balance || 0);
-      setAllowanceMessage(allowance?.awarded
-        ? "Yerma has added today’s 10 Copper Coins to your purse."
-        : "Today’s allowance is already safely tucked into your purse.");
+      setAllowanceMessage(allowance?.balance === UNLIMITED_COPPER
+        ? "The house testing purse never runs dry."
+        : allowance?.awarded
+          ? "Yerma has added today’s 10 Copper Coins to your purse."
+          : "Today’s allowance is already safely tucked into your purse.");
       setTransactions((transactionResult.data || []) as CoinTransaction[]);
       setPurchases((purchaseResult.data || []) as unknown as Purchase[]);
       setLedgerError("");
@@ -192,7 +195,7 @@ export default function PatronAuth() {
           <div><dt>Patron name</dt><dd>{name}</dd></div>
           <div><dt>Registered email</dt><dd>{session.user.email}</dd></div>
           <div><dt>Standing</dt><dd className="standing">Verified patron</dd></div>
-          <div><dt>Copper Coin balance</dt><dd className="coin-balance">{balance}</dd></div>
+          <div><dt>Copper Coin balance</dt><dd className="coin-balance">{balance === UNLIMITED_COPPER ? "Unlimited" : balance}</dd></div>
         </dl>
         {allowanceMessage && <p className="allowance-message" role="status">{allowanceMessage}</p>}
         {ledgerError && <p className="auth-message" role="status">{ledgerError}</p>}
