@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PatronAuth from "./patron-auth";
+import PatronIntro from "./patron-intro";
 import "./patrons.css";
 
 export const metadata: Metadata = {
@@ -19,12 +20,7 @@ export default function PatronsPage() {
         <Link className="back-to-tavern" href="/tavern">Return to the tavern</Link>
       </header>
 
-      <section className="patrons-intro">
-        <p className="patrons-kicker">The Patron Ledger</p>
-        <h1>Your chair is waiting.</h1>
-        <p>Create a patron account to join the ledger. Yerma will send a verification code to make certain the raven found the right door.</p>
-        <div className="ledger-note"><span>House promise</span> Your password is handled securely by our account provider. Yerma never sees it.</div>
-      </section>
+      <PatronIntro />
 
       <PatronAuth />
     </main>

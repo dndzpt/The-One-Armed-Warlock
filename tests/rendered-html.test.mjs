@@ -142,6 +142,15 @@ test("renders the patron account entry page", async () => {
   assert.doesNotMatch(html, /service_role|secret key/i);
 });
 
+test("welcomes signed-in patrons with a reserved seat", async () => {
+  const introSource = await readFile(new URL("../app/patrons/patron-intro.tsx", import.meta.url), "utf8");
+  assert.match(introSource, /getSession\(\)/);
+  assert.match(introSource, /onAuthStateChange/);
+  assert.match(introSource, /Your seat is now reserved/);
+  assert.match(introSource, /Thank you for becoming a Patron of The One-Armed Warlock/);
+  assert.match(introSource, /Your chair is waiting/);
+});
+
 test("verifies and resends password-signup codes as signup tokens", async () => {
   const authSource = await readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8");
   assert.match(authSource, /verifyOtp\(\{ email: nextEmail, token, type: "signup" \}\)/);
