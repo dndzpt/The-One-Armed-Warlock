@@ -85,6 +85,25 @@ test("awards daily Copper Coins and protects Tavern purchases", async () => {
   assert.doesNotMatch(tavernSource, /Service coming soon/);
 });
 
+test("shows a randomized Yerma message after each successful drink purchase", async () => {
+  const [purchaseSource, quotesSource, tavernCss] = await Promise.all([
+    readFile(new URL("../app/tavern/drink-purchase-button.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/drink-quotes.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/tavern.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(purchaseSource, /crypto\.getRandomValues/);
+  assert.match(purchaseSource, /setYermaQuote\(randomItem\(drinkQuotes\[drinkId\]\)\)/);
+  assert.match(purchaseSource, /role="dialog"/);
+  assert.match(purchaseSource, /A word from the Hearthmother/);
+  assert.match(purchaseSource, /autoFocus/);
+  assert.match(quotesSource, /Ironroot Ale/);
+  assert.match(quotesSource, /Maha's Honey Mead/);
+  assert.match(quotesSource, /Moondrop Cider/);
+  assert.match(quotesSource, /Yerma's Reserve/);
+  assert.equal((quotesSource.match(/^\s{4}"/gm) || []).length, 60);
+  assert.match(tavernCss, /\.yerma-toast-backdrop/);
+});
+
 test("keeps navigation visible while pages scroll", async () => {
   const [globalCss, tavernCss, patronsCss] = await Promise.all([
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
