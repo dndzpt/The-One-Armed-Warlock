@@ -17,6 +17,7 @@ test("renders the public tavern", async () => {
   const response = await render("/tavern");
   assert.equal(response.status, 200);
   const html = await response.text();
+  assert.match(html, /The Guild Hall/);
   assert.match(html, /Pull up a chair/);
   assert.match(html, /Patron Ledger/);
   assert.match(html, /mobile-tavern-link/);
@@ -30,6 +31,7 @@ test("keeps tavern and account creation reachable on mobile", async () => {
   assert.match(html, /class="mobile-nav-link" href="\/tavern"/);
   assert.match(html, /class="mobile-nav-link" href="\/patrons"/);
   assert.match(html, /Create an account/);
+  assert.match(html, /Welcome to the Guild Hall/);
 });
 
 test("keeps navigation visible while pages scroll", async () => {

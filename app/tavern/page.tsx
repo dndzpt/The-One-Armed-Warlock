@@ -23,7 +23,7 @@ export default function TavernPage() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav aria-label="Tavern navigation">
-          <a href="#welcome">The Bar</a><a className="mobile-tavern-link" href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><Link className="mobile-tavern-link" href="/patrons">Join</Link><Link href="/">Leave Tavern</Link>
+          <a href="#welcome">The Bar</a><a className="mobile-tavern-link" href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><Link className="mobile-tavern-link" href="/patrons">Join</Link><Link href="/">Guild Hall</Link>
         </nav>
       </header>
 
@@ -63,7 +63,7 @@ export default function TavernPage() {
         <div className="notice-paper" aria-label="Noticeboard preview"><span>Notice No. 001</span><strong>Patrons wanted</strong><p>The ledger opens soon. First round stories are already being gathered.</p><small>— YERMA</small></div>
       </section>
 
-      <footer className="tavern-footer"><div className="tavern-footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div><p>The hearth is warm. The door is open.</p><Link href="/">Return to the main hall ↑</Link></footer>
+      <footer className="tavern-footer"><div className="tavern-footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div><p>The hearth is warm. The door is open.</p><Link href="/">Return to the Guild Hall ↑</Link></footer>
     </main>
   );
 }

@@ -35,11 +35,11 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <p className="eyebrow">An ongoing tabletop adventure</p>
+          <p className="eyebrow">The Guild Hall</p>
           <h1>Every great story starts around a table.</h1>
           <p className="intro">
-            Welcome to The One-Armed Warlock — home to our party, our game
-            world, and the tales we create together one roll at a time.
+            Welcome to the Guild Hall — home to our party, our game world,
+            and the tales we create together one roll at a time.
           </p>
           <div className="hero-actions">
             <a className="button" href="/tavern">Enter the tavern <span aria-hidden="true">→</span></a>

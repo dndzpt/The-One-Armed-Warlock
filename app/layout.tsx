@@ -15,11 +15,11 @@ const sans = Geist({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://theonearmedwarlock.com"),
-  title: "The One-Armed Warlock",
-  description: "The home of The One-Armed Warlock party, campaign world, and shared adventures.",
+  title: "The Guild Hall | The One-Armed Warlock",
+  description: "Enter the Guild Hall — home of The One-Armed Warlock party, campaign world, and shared adventures.",
   icons: { icon: "/oaw-logo.png", shortcut: "/oaw-logo.png" },
   openGraph: {
-    title: "The One-Armed Warlock",
+    title: "The Guild Hall | The One-Armed Warlock",
     description: "The hearth is warm, the door is open, and Yerma is behind the bar.",
     url: "/tavern",
     siteName: "The One-Armed Warlock",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "The One-Armed Warlock",
+    title: "The Guild Hall | The One-Armed Warlock",
     description: "The hearth is warm, the door is open, and Yerma is behind the bar.",
     images: ["/og.png"],
   },
