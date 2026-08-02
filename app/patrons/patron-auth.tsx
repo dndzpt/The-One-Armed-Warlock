@@ -5,8 +5,8 @@ import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 
 type View = "register" | "verify" | "login" | "forgot";
-type CoinTransaction = { id: number; amount: number; transaction_type: string; description: string; created_at: string };
-type Purchase = { id: number; quantity: number; total_price_copper: number; status: string; purchased_at: string; drinks: { name: string } | null };
+type TodayOrder = { id: number; quantity: number; total_price_copper: number; status: string; purchased_at: string; drink_name: string };
+type DrinkTotal = { drink_id: number; drink_name: string; total_quantity: number };
 const UNLIMITED_COPPER = 2147483647;
 
 export default function PatronAuth() {
@@ -18,8 +18,8 @@ export default function PatronAuth() {
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [profileName, setProfileName] = useState("");
-  const [transactions, setTransactions] = useState<CoinTransaction[]>([]);
-  const [purchases, setPurchases] = useState<Purchase[]>([]);
+  const [todayOrders, setTodayOrders] = useState<TodayOrder[]>([]);
+  const [drinkTotals, setDrinkTotals] = useState<DrinkTotal[]>([]);
   const [balance, setBalance] = useState(0);
   const [allowanceMessage, setAllowanceMessage] = useState("");
   const [ledgerError, setLedgerError] = useState("");
@@ -39,19 +39,19 @@ export default function PatronAuth() {
 
   useEffect(() => {
     if (!session) {
-      setProfileName(""); setTransactions([]); setPurchases([]); setBalance(0); setAllowanceMessage(""); setLedgerError("");
+      setProfileName(""); setTodayOrders([]); setDrinkTotals([]); setBalance(0); setAllowanceMessage(""); setLedgerError("");
       return;
     }
     let active = true;
     async function loadLedger() {
       const allowanceResult = await supabase.rpc("claim_daily_allowance");
-      const [profileResult, transactionResult, purchaseResult] = await Promise.all([
+      const [profileResult, todayOrdersResult, drinkTotalsResult] = await Promise.all([
         supabase.from("patron_profiles").select("display_name").eq("id", session!.user.id).single(),
-        supabase.from("coin_transactions").select("id, amount, transaction_type, description, created_at").eq("patron_id", session!.user.id).order("created_at", { ascending: false }).limit(20),
-        supabase.from("purchases").select("id, quantity, total_price_copper, status, purchased_at, drinks(name)").eq("patron_id", session!.user.id).order("purchased_at", { ascending: false }).limit(20),
+        supabase.rpc("get_my_orders_today"),
+        supabase.rpc("get_my_drink_totals"),
       ]);
       if (!active) return;
-      const error = allowanceResult.error || profileResult.error || transactionResult.error || purchaseResult.error;
+      const error = allowanceResult.error || profileResult.error || todayOrdersResult.error || drinkTotalsResult.error;
       if (error) return setLedgerError("The ledger could not be opened just now. Please refresh and try again.");
       const allowance = allowanceResult.data?.[0] as { balance: number; awarded: boolean; amount: number } | undefined;
       setProfileName(profileResult.data.display_name);
@@ -61,8 +61,8 @@ export default function PatronAuth() {
         : allowance?.awarded
           ? "Yerma has added today’s 10 Copper Coins to your purse."
           : "Today’s allowance is already safely tucked into your purse.");
-      setTransactions((transactionResult.data || []) as CoinTransaction[]);
-      setPurchases((purchaseResult.data || []) as unknown as Purchase[]);
+      setTodayOrders((todayOrdersResult.data || []) as TodayOrder[]);
+      setDrinkTotals((drinkTotalsResult.data || []) as DrinkTotal[]);
       setLedgerError("");
     }
     loadLedger();
@@ -199,21 +199,20 @@ export default function PatronAuth() {
         </dl>
         {allowanceMessage && <p className="allowance-message" role="status">{allowanceMessage}</p>}
         {ledgerError && <p className="auth-message" role="status">{ledgerError}</p>}
-        <div className="ledger-history">
-          <div><span>Coin ledger</span><strong>{transactions.length ? "Recent activity" : "No transactions yet"}</strong></div>
-          {transactions.map((transaction) => <article key={transaction.id}>
-            <p><strong>{transaction.description}</strong><small>{new Date(transaction.created_at).toLocaleDateString()}</small></p>
-            <b className={transaction.amount > 0 ? "credit" : "debit"}>{transaction.amount > 0 ? "+" : ""}{transaction.amount}</b>
+        <div className="ledger-history today-orders">
+          <div><span>Today&apos;s Orders</span><strong>{todayOrders.length ? `${todayOrders.length} at the bar` : "Nothing ordered today"}</strong></div>
+          {todayOrders.map((order) => <article key={order.id}>
+            <p><strong>{order.quantity} × {order.drink_name}</strong><small>{new Date(order.purchased_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} · {order.status}</small></p>
+            <b className="debit">−{order.total_price_copper}</b>
           </article>)}
         </div>
-        <div className="ledger-history purchase-history">
-          <div><span>Purchase records</span><strong>{purchases.length ? "From the bar" : "No purchases yet"}</strong></div>
-          {purchases.map((purchase) => <article key={purchase.id}>
-            <p><strong>{purchase.quantity} × {purchase.drinks?.name || "Tavern drink"}</strong><small>{new Date(purchase.purchased_at).toLocaleDateString()} · {purchase.status}</small></p>
-            <b className="debit">−{purchase.total_price_copper}</b>
+        <div className="ledger-history tavern-totals">
+          <div><span>Tavern Totals</span><strong>Lifetime pours</strong></div>
+          {drinkTotals.map((drink) => <article key={drink.drink_id}>
+            <p><strong>{drink.drink_name}</strong><small>All visits</small></p>
+            <b>{drink.total_quantity}</b>
           </article>)}
         </div>
-        <div className="profile-coming"><span>Database connected</span><strong>Balances and records now come directly from Yerma’s ledger.</strong></div>
         {session.user.app_metadata?.role === "admin" && <a className="admin-office-link" href="/stewards-office">Enter the Steward’s Office</a>}
         <button className="secondary-button" onClick={logout} disabled={busy}>Sign out</button>
       </section>
