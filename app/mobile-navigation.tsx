@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePatronNavigationLabel } from "./patron-navigation-link";
 
 type NavigationItem = {
   href: string;
@@ -15,6 +16,7 @@ export default function MobileNavigation({
   theme?: "guild" | "tavern";
 }) {
   const [open, setOpen] = useState(false);
+  const patronLabel = usePatronNavigationLabel();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function MobileNavigation({
       >
         {items.map((item) => (
           <a key={`${item.href}-${item.label}`} href={item.href} onClick={() => setOpen(false)}>
-            {item.label}
+            {item.href === "/patrons" ? patronLabel : item.label}
           </a>
         ))}
       </nav>

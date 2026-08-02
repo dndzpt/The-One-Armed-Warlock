@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import MobileNavigation from "../mobile-navigation";
+import PatronNavigationLink from "../patron-navigation-link";
 import "./tavern.css";
 
 export const metadata: Metadata = {
@@ -24,14 +25,15 @@ export default function TavernPage() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav aria-label="Tavern navigation">
-          <a href="#welcome">The Bar</a><a href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><Link href="/patrons">Join</Link><Link href="/">Guild Hall</Link>
+          <Link href="/">Guild Hall</Link><a href="#welcome">The Bar</a><a href="#menu">Drinks</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
         </nav>
         <MobileNavigation theme="tavern" items={[
+          { href: "/", label: "Guild Hall" },
           { href: "#welcome", label: "The Bar" },
           { href: "#menu", label: "Drinks" },
           { href: "#noticeboard", label: "Noticeboard" },
           { href: "/patrons", label: "Join" },
-          { href: "/", label: "Guild Hall" },
+          { href: "#connect", label: "Connect" },
         ]} />
       </header>
 
@@ -69,6 +71,13 @@ export default function TavernPage() {
       <section className="tavern-noticeboard" id="noticeboard">
         <div className="notice-copy"><p className="tavern-label">Pinned by the hearth</p><h2>The Tavern Noticeboard</h2><p>Jobs, rumours, community gatherings, and rewards will soon find their way here. For now, consider this an empty hook waiting for its first notice.</p></div>
         <div className="notice-paper" aria-label="Noticeboard preview"><span>Notice No. 001</span><strong>Patrons wanted</strong><p>The ledger opens soon. First round stories are already being gathered.</p><small>— YERMA</small></div>
+      </section>
+
+      <section className="tavern-connect" id="connect">
+        <p className="tavern-label">Beyond the tavern door</p>
+        <h2>Follow the next tale.</h2>
+        <p>Community updates, new stories, and adventures from The One-Armed Warlock will gather here.</p>
+        <div className="tavern-socials" aria-label="Future social links"><span>Discord</span><span>YouTube</span><span>Instagram</span></div>
       </section>
 
       <footer className="tavern-footer"><div className="tavern-footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div><p>The hearth is warm. The door is open.</p><Link href="/">Return to the Guild Hall ↑</Link></footer>

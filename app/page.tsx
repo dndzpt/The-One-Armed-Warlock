@@ -1,4 +1,5 @@
 import MobileNavigation from "./mobile-navigation";
+import PatronNavigationLink from "./patron-navigation-link";
 
 const sections = [
   {
@@ -30,7 +31,7 @@ export default function Home() {
           <a href="/tavern">Tavern</a>
           <a href="#about">About</a>
           <a href="#explore">Explore</a>
-          <a href="/patrons">Join</a>
+          <PatronNavigationLink />
           <a href="#connect">Connect</a>
         </nav>
         <MobileNavigation items={[

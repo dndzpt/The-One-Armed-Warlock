@@ -24,6 +24,9 @@ test("renders the public tavern", async () => {
   assert.match(html, /Navigation/);
   assert.match(html, /Join the Patron Ledger/);
   assert.match(html, /Copper Coins/);
+  assert.match(html, /Guild Hall[\s\S]*The Bar[\s\S]*Drinks[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
+  assert.match(html, /id="connect"/);
+  assert.match(html, /Discord[\s\S]*YouTube[\s\S]*Instagram/);
 });
 
 test("keeps tavern and account creation reachable on mobile", async () => {
@@ -45,6 +48,16 @@ test("mobile navigation expands accessibly and closes after selection", async ()
   assert.match(source, /setOpen\(\(current\) => !current\)/);
   assert.match(source, /onClick=\{\(\) => setOpen\(false\)\}/);
   assert.match(source, /event\.key === "Escape"/);
+});
+
+test("shows My Ledger in site navigation for signed-in patrons", async () => {
+  const [linkSource, mobileSource] = await Promise.all([
+    readFile(new URL("../app/patron-navigation-link.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/mobile-navigation.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(linkSource, /data\.session \? "My Ledger" : "Join"/);
+  assert.match(linkSource, /session \? "My Ledger" : "Join"/);
+  assert.match(mobileSource, /item\.href === "\/patrons" \? patronLabel : item\.label/);
 });
 
 test("keeps navigation visible while pages scroll", async () => {
