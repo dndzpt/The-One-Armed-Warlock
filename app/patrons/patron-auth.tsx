@@ -156,6 +156,7 @@ export default function PatronAuth() {
           </article>)}
         </div>
         <div className="profile-coming"><span>Database connected</span><strong>Balances and records now come directly from Yerma’s ledger.</strong></div>
+        {session.user.app_metadata?.role === "admin" && <a className="admin-office-link" href="/stewards-office">Enter the Steward’s Office</a>}
         <button className="secondary-button" onClick={logout} disabled={busy}>Sign out</button>
       </section>
     );

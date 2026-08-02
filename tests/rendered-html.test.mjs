@@ -97,3 +97,17 @@ test("loads analytics only after a visitor accepts", async () => {
   assert.match(consentSource, /Privacy choices/);
   assert.ok(consentSource.indexOf('nextChoice === "accepted"') < consentSource.lastIndexOf("initialiseAnalytics();"));
 });
+
+test("protects the Steward's Office with the Supabase admin role", async () => {
+  const [dashboardSource, patronSource] = await Promise.all([
+    readFile(new URL("../app/stewards-office/stewards-dashboard.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(dashboardSource, /app_metadata\?\.role === "admin"/);
+  assert.match(dashboardSource, /This ledger is private/);
+  assert.match(dashboardSource, /patron_profiles/);
+  assert.match(dashboardSource, /coin_transactions/);
+  assert.match(dashboardSource, /purchases/);
+  assert.doesNotMatch(dashboardSource, /service_role|verification_code/i);
+  assert.match(patronSource, /href="\/stewards-office"/);
+});
