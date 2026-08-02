@@ -85,6 +85,10 @@ test("awards daily Copper Coins and protects Tavern purchases", async () => {
   assert.equal((ledgerSource.match(/\.eq\("patron_id", session!\.user\.id\)/g) || []).length, 2);
   assert.match(ledgerSource, /balance === UNLIMITED_COPPER \? "Unlimited" : balance/);
   assert.match(purchaseSource, /Unlimited Copper Coins remain/);
+  assert.match(purchaseSource, /rpc\("claim_daily_allowance"\)/);
+  assert.match(purchaseSource, /After this order, \$\{projectedBalance\} Copper Coins will remain/);
+  assert.match(purchaseSource, /Confirm order/);
+  assert.match(purchaseSource, /Select this drink/);
   assert.match(tavernSource, /<DrinkPurchaseButton drinkId=/);
   assert.doesNotMatch(tavernSource, /Service coming soon/);
 });
@@ -121,6 +125,8 @@ test("keeps navigation visible while pages scroll", async () => {
   assert.match(tavernCss, /\.tavern-header \.mobile-navigation-panel\{display:grid\}/);
   assert.match(patronsCss, /\.patrons-header\{[^}]*position:sticky/);
   assert.match(patronsCss, /background:#0b070552/);
+  assert.match(patronsCss, /\.patrons-intro\{position:sticky;top:92px/);
+  assert.match(patronsCss, /@media\(max-width:950px\)\{\.patrons-page\{display:block\}\.patrons-intro\{position:static/);
 });
 
 test("renders the patron account entry page", async () => {

@@ -65,7 +65,7 @@ export default function TavernPage() {
               {drink.featured && <span className="featured-ribbon">Yerma recommends</span>}
               <div className="drink-mark" aria-hidden="true">{drink.mark}</div><p className="drink-kind">{drink.kind}</p><h3>{drink.name}</h3><p className="drink-description">{drink.description}</p>
               <div className="drink-footer"><span><strong>{drink.price}</strong> Copper Coins</span></div>
-              <DrinkPurchaseButton drinkId={drinkIds[drink.mark as keyof typeof drinkIds]} drinkName={drink.name} />
+              <DrinkPurchaseButton drinkId={drinkIds[drink.mark as keyof typeof drinkIds]} drinkName={drink.name} price={drink.price} />
             </article>
           ))}
         </div>
