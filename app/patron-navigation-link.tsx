@@ -15,7 +15,15 @@ export function usePatronNavigationLabel() {
   return label;
 }
 
-export default function PatronNavigationLink() {
+type PatronNavigationLinkProps = {
+  className?: string;
+  signedOutLabel?: string;
+};
+
+export default function PatronNavigationLink({
+  className,
+  signedOutLabel = "Join",
+}: PatronNavigationLinkProps = {}) {
   const label = usePatronNavigationLabel();
-  return <a href="/patrons">{label}</a>;
+  return <a className={className} href="/patrons">{label === "My Ledger" ? label : signedOutLabel}</a>;
 }

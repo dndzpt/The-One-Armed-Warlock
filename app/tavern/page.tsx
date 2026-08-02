@@ -44,7 +44,7 @@ export default function TavernPage() {
           <p className="tavern-kicker">Ale • Stories • Shelter</p>
           <h1>Pull up a chair.<br />Yerma kept the fire lit.</h1>
           <p>Beyond the oak door waits a warm hearth, a full bar, and a room where every traveller’s tale is worth the telling.</p>
-          <div className="tavern-actions"><a className="tavern-button" href="#menu">See what’s pouring <span aria-hidden="true">↓</span></a><Link className="tavern-button patron-button" href="/patrons">Join the Patron Ledger</Link></div>
+          <div className="tavern-actions"><a className="tavern-button" href="#menu">See what’s pouring <span aria-hidden="true">↓</span></a><PatronNavigationLink className="tavern-button patron-button" signedOutLabel="Join the Patron Ledger" /></div>
         </div>
         <div className="yerma-card"><span>Chief Barmaid</span><strong>Yerma</strong><p>“Coin on the bar, trouble at the door, and we’ll get along famously.”</p></div>
       </section>

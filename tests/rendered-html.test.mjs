@@ -51,13 +51,18 @@ test("mobile navigation expands accessibly and closes after selection", async ()
 });
 
 test("shows My Ledger in site navigation for signed-in patrons", async () => {
-  const [linkSource, mobileSource] = await Promise.all([
+  const [linkSource, mobileSource, guildHallSource, tavernSource] = await Promise.all([
     readFile(new URL("../app/patron-navigation-link.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/mobile-navigation.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/page.tsx", import.meta.url), "utf8"),
   ]);
   assert.match(linkSource, /data\.session \? "My Ledger" : "Join"/);
   assert.match(linkSource, /session \? "My Ledger" : "Join"/);
+  assert.match(linkSource, /label === "My Ledger" \? label : signedOutLabel/);
   assert.match(mobileSource, /item\.href === "\/patrons" \? patronLabel : item\.label/);
+  assert.match(guildHallSource, /<PatronNavigationLink className="button secondary" \/>/);
+  assert.match(tavernSource, /signedOutLabel="Join the Patron Ledger"/);
 });
 
 test("keeps navigation visible while pages scroll", async () => {

@@ -53,7 +53,7 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="button" href="/tavern">Enter the tavern <span aria-hidden="true">→</span></a>
-            <a className="button secondary" href="/patrons">Join</a>
+            <PatronNavigationLink className="button secondary" />
           </div>
         </div>
         <div className="hero-mark" aria-hidden="true">
