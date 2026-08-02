@@ -120,6 +120,18 @@ test("verifies and resends password-signup codes as signup tokens", async () => 
   assert.doesNotMatch(authSource, /six-digit/i);
 });
 
+test("supports secure password recovery by email link", async () => {
+  const authSource = await readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8");
+  assert.match(authSource, /Forgot your password\?/);
+  assert.match(authSource, /resetPasswordForEmail\(nextEmail/);
+  assert.match(authSource, /redirectTo: "https:\/\/theonearmedwarlock\.com\/patrons"/);
+  assert.match(authSource, /event === "PASSWORD_RECOVERY"/);
+  assert.match(authSource, /updateUser\(\{ password \}\)/);
+  assert.match(authSource, /Set new password/);
+  assert.match(authSource, /If that address is written in the ledger/);
+  assert.doesNotMatch(authSource, /service_role|admin\.updateUserById/);
+});
+
 test("loads analytics only after a visitor accepts", async () => {
   const [layoutSource, consentSource] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),

@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 
-type View = "register" | "verify" | "login";
+type View = "register" | "verify" | "login" | "forgot";
 type CoinTransaction = { id: number; amount: number; transaction_type: string; description: string; created_at: string };
 type Purchase = { id: number; quantity: number; total_price_copper: number; status: string; purchased_at: string; drinks: { name: string } | null };
 
@@ -12,6 +12,7 @@ export default function PatronAuth() {
   const [view, setView] = useState<View>("register");
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
+  const [recovering, setRecovering] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -23,11 +24,15 @@ export default function PatronAuth() {
   const [ledgerError, setLedgerError] = useState("");
 
   useEffect(() => {
+    if (window.location.hash.includes("type=recovery")) setRecovering(true);
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setReady(true);
     });
-    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => setSession(nextSession));
+    const { data } = supabase.auth.onAuthStateChange((event, nextSession) => {
+      setSession(nextSession);
+      if (event === "PASSWORD_RECOVERY") setRecovering(true);
+    });
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -126,6 +131,37 @@ export default function PatronAuth() {
     setMessage("Yerma has sent a fresh verification code. Please use the newest email.");
   }
 
+  async function requestPasswordReset(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const nextEmail = String(form.get("email") || "").trim().toLowerCase();
+    setBusy(true); setMessage("");
+    const { error } = await supabase.auth.resetPasswordForEmail(nextEmail, {
+      redirectTo: "https://theonearmedwarlock.com/patrons",
+    });
+    setBusy(false);
+    if (error) return setMessage(error.message);
+    setMessage("If that address is written in the ledger, Yerma has sent a secure password-reset link.");
+  }
+
+  async function updatePassword(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const password = String(form.get("password") || "");
+    const confirmation = String(form.get("confirmation") || "");
+    if (password !== confirmation) return setMessage("Those passwords do not match.");
+    setBusy(true); setMessage("");
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) {
+      setBusy(false);
+      return setMessage(error.message);
+    }
+    await supabase.auth.signOut();
+    setRecovering(false); setBusy(false); setView("login");
+    window.history.replaceState({}, "", "/patrons");
+    setMessage("Your new password is sealed in the ledger. You may now sign in.");
+  }
+
   async function logout() {
     setBusy(true);
     await supabase.auth.signOut();
@@ -133,6 +169,17 @@ export default function PatronAuth() {
   }
 
   if (!ready) return <section className="ledger-panel loading-ledger">Opening the ledger…</section>;
+
+  if (recovering) return <section className="ledger-panel">
+    <form onSubmit={updatePassword}>
+      <p className="form-eyebrow">A fresh key for the ledger</p><h2>Choose a new password</h2>
+      <p className="form-copy">Enter a new password for your patron account. The recovery link can only be used for this protected change.</p>
+      <label>New password<input name="password" type="password" autoComplete="new-password" required minLength={8} /></label>
+      <label>Repeat new password<input name="confirmation" type="password" autoComplete="new-password" required minLength={8} /></label>
+      <button className="primary-button" disabled={busy}>{busy ? "Sealing the ledger…" : "Set new password"}</button>
+      {message && <p className="auth-message" role="status">{message}</p>}
+    </form>
+  </section>;
 
   if (session) {
     const name = profileName || String(session.user.user_metadata?.display_name || "Patron");
@@ -202,6 +249,15 @@ export default function PatronAuth() {
         <label>Email address<input name="email" type="email" autoComplete="email" required /></label>
         <label>Password<input name="password" type="password" autoComplete="current-password" required /></label>
         <button className="primary-button" disabled={busy}>{busy ? "Checking the ledger…" : "Sign in"}</button>
+        <button className="text-button" type="button" onClick={() => changeView("forgot")}>Forgot your password?</button>
+      </form>}
+
+      {view === "forgot" && <form onSubmit={requestPasswordReset}>
+        <p className="form-eyebrow">Lost your ledger key?</p><h2>Reset your password</h2>
+        <p className="form-copy">Enter your registered email address. Yerma will send a secure link to choose a new password.</p>
+        <label>Email address<input name="email" type="email" autoComplete="email" required /></label>
+        <button className="primary-button" disabled={busy}>{busy ? "Sending raven-post…" : "Send reset link"}</button>
+        <button className="text-button" type="button" onClick={() => changeView("login")}>Return to sign in</button>
       </form>}
 
       {message && <p className="auth-message" role="status">{message}</p>}
