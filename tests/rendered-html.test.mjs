@@ -24,7 +24,9 @@ test("renders the public tavern", async () => {
   assert.match(html, /Navigation/);
   assert.match(html, /Join the Patron Ledger/);
   assert.match(html, /Copper Coins/);
-  assert.match(html, /Guild Hall[\s\S]*The Bar[\s\S]*Drinks[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
+  assert.match(html, /Guild Hall[\s\S]*The Bar[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
+  assert.match(html, /href="#menu">The Bar<\/a>/);
+  assert.doesNotMatch(html, /href="#menu">Drinks<\/a>/);
   assert.match(html, /id="connect"/);
   assert.match(html, /Discord[\s\S]*YouTube[\s\S]*Instagram/);
 });
