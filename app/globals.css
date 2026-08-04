@@ -13,7 +13,7 @@ main { overflow-x: clip; }
 .threshold-navigation a { min-width: 132px; padding: 14px 20px; border: 1px solid var(--ink); text-align: center; transition: color .2s, background .2s, border-color .2s; }
 .threshold-navigation a[aria-current="page"] { color: var(--paper); background: var(--ink); }
 .threshold-navigation a:hover, .threshold-navigation a:focus-visible { color: var(--paper); border-color: var(--rust); background: var(--rust); }
-.threshold-welcome { min-height: calc(100svh - 96px); padding: clamp(64px, 9vw, 130px) clamp(24px, 8vw, 130px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .55fr); align-items: center; gap: clamp(60px, 9vw, 150px); position: relative; }
+.threshold-welcome { min-height: calc(100svh - 96px); padding: clamp(64px, 7vw, 110px) clamp(24px, 6vw, 110px); display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(310px, .65fr); align-items: center; gap: clamp(48px, 7vw, 120px); position: relative; }
 .threshold-welcome::after { content: ""; width: 430px; height: 430px; position: absolute; right: -220px; bottom: -210px; border: 1px solid var(--line); border-radius: 50%; pointer-events: none; }
 .threshold-copy { max-width: 850px; }
 .threshold-copy h1 { margin-top: 18px; font-size: clamp(64px, 8vw, 116px); }
@@ -24,9 +24,16 @@ main { overflow-x: clip; }
 .threshold-text p { margin: 0 0 20px; }
 .threshold-text p:last-child { margin-bottom: 0; }
 .threshold-text strong { color: var(--ink); font-weight: 650; }
-.threshold-mark { display: grid; justify-items: center; gap: 22px; }
-.threshold-mark img { width: min(27vw, 300px); filter: sepia(.12); }
-.threshold-mark p { margin: 0; color: var(--rust); font-family: var(--font-display), serif; font-size: 18px; font-style: italic; letter-spacing: .05em; }
+.threshold-gallery { width: min(29vw, 410px); margin: 0; justify-self: center; display: grid; justify-items: center; gap: 20px; }
+.threshold-gallery figcaption { color: var(--rust); font-family: var(--font-display), serif; font-size: 18px; font-style: italic; letter-spacing: .045em; text-align: center; }
+.threshold-frame { width: 100%; padding: clamp(16px, 1.5vw, 23px); position: relative; background: linear-gradient(90deg, #3b1d0d 0 7%, #70411f 18%, #3a1b0c 48%, #80502a 78%, #351707 100%); border: 2px solid #241006; box-shadow: 0 24px 45px rgba(34, 18, 8, .26), inset 0 0 0 3px #9b6838, inset 0 0 0 7px #2a1106; transform: rotate(.65deg); }
+.threshold-frame::before, .threshold-frame::after { content: ""; position: absolute; z-index: 2; pointer-events: none; }
+.threshold-frame::before { inset: 8px; border: 1px solid rgba(223, 169, 99, .5); box-shadow: inset 0 0 14px rgba(0, 0, 0, .7); }
+.threshold-frame::after { inset: 0; opacity: .42; background: repeating-linear-gradient(4deg, transparent 0 18px, rgba(22, 8, 2, .55) 19px, transparent 21px 39px); mix-blend-mode: multiply; }
+.threshold-frame-inner { width: 100%; aspect-ratio: 2 / 3; overflow: hidden; position: relative; border: 4px solid #160a04; background: #23150d; box-shadow: inset 0 0 24px rgba(0, 0, 0, .75); }
+.threshold-frame-inner img { width: 100%; height: 100%; display: block; object-fit: cover; animation: threshold-image-reveal .55s ease-out both; }
+.threshold-image-loading { width: 100%; height: 100%; display: block; background: radial-gradient(circle at 50% 45%, #55321a, #1d1009 72%); }
+@keyframes threshold-image-reveal { from { opacity: 0; transform: scale(1.015); } to { opacity: 1; transform: scale(1); } }
 
 .site-header { height: 96px; padding: 0 clamp(24px, 6vw, 88px); position: sticky; z-index: 50; top: 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(90, 79, 61, .22); background: rgba(244, 240, 231, .32); backdrop-filter: blur(18px) saturate(1.15); }
 .brand, .footer-brand { display: flex; align-items: center; gap: 12px; font-family: var(--font-display), serif; font-size: 20px; font-weight: 700; letter-spacing: .035em; }
@@ -101,7 +108,7 @@ footer p:last-child { text-align: right; }
 @media (max-width: 820px) {
   .threshold-header { height: 78px; }
   .threshold-welcome { min-height: calc(100svh - 78px); grid-template-columns: 1fr; }
-  .threshold-mark { display: none; }
+  .threshold-gallery { width: min(72vw, 390px); margin-top: 12px; }
   .site-header { height: 78px; }
   .brand img { width: 42px; height: 42px; }
   .brand { font-size: 16px; }
@@ -127,6 +134,7 @@ footer p:last-child { text-align: right; }
   .threshold-welcome { padding: 56px 22px 72px; align-items: start; }
   .threshold-copy h1 { font-size: clamp(54px, 17vw, 78px); }
   .threshold-text { font-size: 16px; line-height: 1.65; }
+  .threshold-gallery { width: min(86vw, 360px); }
   .site-header { padding: 0 18px; }
   .brand span { display: none; }
   .site-header nav { gap: 15px; font-size: 11px; }
@@ -138,4 +146,4 @@ footer p:last-child { text-align: right; }
   .analytics-consent button { width: 100%; }
 }
 
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }

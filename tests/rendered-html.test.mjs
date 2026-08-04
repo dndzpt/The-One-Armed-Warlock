@@ -45,6 +45,20 @@ test("renders the Threshold with both paths", async () => {
   assert.doesNotMatch(html, /href="\/patrons">Join/);
 });
 
+test("randomizes the framed Threshold artwork on each visit", async () => {
+  const [gallerySource, globalCss] = await Promise.all([
+    readFile(new URL("../app/threshold-gallery.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(gallerySource, /length: 13/);
+  assert.match(gallerySource, /crypto\.getRandomValues/);
+  assert.match(gallerySource, /thresholdImages\[randomImageIndex\(\)\]/);
+  assert.match(gallerySource, /The door is never where you left it/);
+  assert.match(globalCss, /\.threshold-frame/);
+  assert.match(globalCss, /aspect-ratio:\s*2 \/ 3/);
+  assert.match(globalCss, /\.threshold-gallery \{ width: min\(72vw, 390px\)/);
+});
+
 test("keeps tavern and account creation reachable from the Guild Hall on mobile", async () => {
   const response = await render("/guild-hall");
   const html = await response.text();

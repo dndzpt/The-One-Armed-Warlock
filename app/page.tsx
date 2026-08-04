@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThresholdGallery from "./threshold-gallery";
 
 export default function Threshold() {
   return (
@@ -42,10 +43,7 @@ export default function Threshold() {
             </p>
           </div>
         </div>
-        <div className="threshold-mark" aria-hidden="true">
-          <img src="/oaw-logo.png" alt="" />
-          <p>Two paths await</p>
-        </div>
+        <ThresholdGallery />
       </section>
     </main>
   );
