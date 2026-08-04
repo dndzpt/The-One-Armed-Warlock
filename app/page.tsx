@@ -9,6 +9,7 @@ export default function Threshold() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav className="threshold-navigation" aria-label="Choose your destination">
+          <Link href="/" aria-current="page">The Threshold</Link>
           <Link href="/guild-hall">Guild Hall</Link>
           <Link href="/tavern">Tavern</Link>
         </nav>

@@ -39,6 +39,7 @@ test("renders the Threshold with both paths", async () => {
   assert.equal(response.status, 200);
   assert.match(html, /Welcome, traveler/);
   assert.match(html, /Beyond this threshold lie two paths/);
+  assert.match(html, /href="\/" aria-current="page">The Threshold/);
   assert.match(html, /href="\/guild-hall">Guild Hall/);
   assert.match(html, /href="\/tavern">Tavern/);
   assert.doesNotMatch(html, /href="\/patrons">Join/);
