@@ -26,7 +26,7 @@ test("renders the public tavern", async () => {
   assert.match(html, /Copper Coins/);
   assert.match(html, /Hearthmother/);
   assert.doesNotMatch(html, /Chief Barmaid/i);
-  assert.match(html, /Guild Hall[\s\S]*The Bar[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
+  assert.match(html, /The Threshold[\s\S]*Guild Hall[\s\S]*The Bar[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
   assert.match(html, /href="#menu">The Bar<\/a>/);
   assert.doesNotMatch(html, /href="#menu">Drinks<\/a>/);
   assert.match(html, /id="connect"/);
@@ -50,6 +50,7 @@ test("keeps tavern and account creation reachable from the Guild Hall on mobile"
   const html = await response.text();
   assert.match(html, /aria-label="Main mobile navigation"/);
   assert.match(html, /mobile-guild-navigation/);
+  assert.match(html, /href="\/">The Threshold/);
   assert.match(html, /href="\/tavern">Tavern/);
   assert.match(html, /href="\/patrons">Join/);
   assert.doesNotMatch(html, /Create an account/);

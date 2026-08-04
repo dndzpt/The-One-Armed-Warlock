@@ -28,9 +28,10 @@ export default function TavernPage() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav aria-label="Tavern navigation">
-          <Link href="/guild-hall">Guild Hall</Link><a href="#menu">The Bar</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
+          <Link href="/">The Threshold</Link><Link href="/guild-hall">Guild Hall</Link><a href="#menu">The Bar</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
         </nav>
         <MobileNavigation theme="tavern" items={[
+          { href: "/", label: "The Threshold" },
           { href: "/guild-hall", label: "Guild Hall" },
           { href: "#menu", label: "The Bar" },
           { href: "#noticeboard", label: "Noticeboard" },

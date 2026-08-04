@@ -22,6 +22,7 @@ export default function GuildHall() {
           <span>The One-Armed Warlock</span>
         </a>
         <nav aria-label="Guild Hall navigation">
+          <a href="/">The Threshold</a>
           <a href="/tavern">Tavern</a>
           <a href="#about">About</a>
           <a href="#explore">Explore</a>
@@ -29,6 +30,7 @@ export default function GuildHall() {
           <a href="#connect">Connect</a>
         </nav>
         <MobileNavigation items={[
+          { href: "/", label: "The Threshold" },
           { href: "/tavern", label: "Tavern" },
           { href: "#about", label: "About" },
           { href: "#explore", label: "Explore" },
