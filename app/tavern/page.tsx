@@ -28,10 +28,10 @@ export default function TavernPage() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav aria-label="Tavern navigation">
-          <Link href="/">Guild Hall</Link><a href="#menu">The Bar</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
+          <Link href="/guild-hall">Guild Hall</Link><a href="#menu">The Bar</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
         </nav>
         <MobileNavigation theme="tavern" items={[
-          { href: "/", label: "Guild Hall" },
+          { href: "/guild-hall", label: "Guild Hall" },
           { href: "#menu", label: "The Bar" },
           { href: "#noticeboard", label: "Noticeboard" },
           { href: "/patrons", label: "Join" },
@@ -83,7 +83,7 @@ export default function TavernPage() {
         <div className="tavern-socials" aria-label="Future social links"><span>Discord</span><span>YouTube</span><span>Instagram</span></div>
       </section>
 
-      <footer className="tavern-footer"><div className="tavern-footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div><p>The hearth is warm. The door is open.</p><Link href="/">Return to the Guild Hall ↑</Link></footer>
+      <footer className="tavern-footer"><div className="tavern-footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div><p>The hearth is warm. The door is open.</p><Link href="/guild-hall">Return to the Guild Hall ↑</Link></footer>
     </main>
   );
 }

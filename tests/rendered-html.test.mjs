@@ -17,7 +17,7 @@ test("renders the public tavern", async () => {
   const response = await render("/tavern");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /The Guild Hall/);
+  assert.match(html, /Guild Hall/);
   assert.match(html, /Pull up a chair/);
   assert.match(html, /Patron Ledger/);
   assert.match(html, /aria-label="Tavern mobile navigation"/);
@@ -33,8 +33,19 @@ test("renders the public tavern", async () => {
   assert.match(html, /Discord[\s\S]*YouTube[\s\S]*Instagram/);
 });
 
-test("keeps tavern and account creation reachable on mobile", async () => {
+test("renders the Threshold with both paths", async () => {
   const response = await render("/");
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /Welcome, traveler/);
+  assert.match(html, /Beyond this threshold lie two paths/);
+  assert.match(html, /href="\/guild-hall">Guild Hall/);
+  assert.match(html, /href="\/tavern">Tavern/);
+  assert.doesNotMatch(html, /href="\/patrons">Join/);
+});
+
+test("keeps tavern and account creation reachable from the Guild Hall on mobile", async () => {
+  const response = await render("/guild-hall");
   const html = await response.text();
   assert.match(html, /aria-label="Main mobile navigation"/);
   assert.match(html, /mobile-guild-navigation/);
@@ -58,7 +69,7 @@ test("shows My Ledger in site navigation for signed-in patrons", async () => {
   const [linkSource, mobileSource, guildHallSource, tavernSource] = await Promise.all([
     readFile(new URL("../app/patron-navigation-link.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/mobile-navigation.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/guild-hall/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/tavern/page.tsx", import.meta.url), "utf8"),
   ]);
   assert.match(linkSource, /data\.session \? "My Ledger" : "Join"/);

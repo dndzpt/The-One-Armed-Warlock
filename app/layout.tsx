@@ -16,21 +16,21 @@ const sans = Geist({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://theonearmedwarlock.com"),
-  title: "The Guild Hall | The One-Armed Warlock",
-  description: "Enter the Guild Hall — home of The One-Armed Warlock party, campaign world, and shared adventures.",
+  title: "The One-Armed Warlock | Threshold",
+  description: "Cross the threshold into The One-Armed Warlock Guild Hall and Tavern.",
   icons: { icon: "/oaw-logo.png", shortcut: "/oaw-logo.png" },
   openGraph: {
-    title: "The Guild Hall | The One-Armed Warlock",
-    description: "The hearth is warm, the door is open, and Yerma is behind the bar.",
-    url: "/tavern",
+    title: "Welcome, traveler | The One-Armed Warlock",
+    description: "Two paths await: enter the Guild Hall or pull up a chair in the Tavern.",
+    url: "/",
     siteName: "The One-Armed Warlock",
     images: [{ url: "/og.png", width: 1800, height: 900, alt: "The One-Armed Warlock — The Tavern is Open" }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Guild Hall | The One-Armed Warlock",
-    description: "The hearth is warm, the door is open, and Yerma is behind the bar.",
+    title: "Welcome, traveler | The One-Armed Warlock",
+    description: "Two paths await: enter the Guild Hall or pull up a chair in the Tavern.",
     images: ["/og.png"],
   },
 };
