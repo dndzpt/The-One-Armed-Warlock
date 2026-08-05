@@ -119,7 +119,8 @@ h1 { font-size: clamp(62px, 8vw, 124px); max-width: 940px; letter-spacing: -.04e
 .hearth-dream-whisper { margin: 0 0 20px; color: #c58e62; font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
 .hearth-dream-dialog h3 { margin: 0 0 28px; color: #fff1d7; font-size: clamp(44px, 7vw, 76px); }
 .hearth-dream-dialog #hearth-dream-text { margin: 0 auto; color: #d1c3ae; font-family: var(--font-display), serif; font-size: clamp(19px, 2vw, 25px); line-height: 1.7; }
-.hearth-dream-dialog button { min-width: 190px; margin-top: 42px; }
+.hearth-dream-dialog button { min-width: 190px; margin-top: 42px; border: 1px solid rgba(255, 241, 215, .46); padding: 16px 22px; color: #fff1d7; background: rgba(255, 241, 215, .04); font: inherit; font-size: 11px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: border-color .25s, background .25s, color .25s; }
+.hearth-dream-dialog button:hover, .hearth-dream-dialog button:focus-visible { border-color: #e3aa76; color: #fff; background: rgba(227, 170, 118, .12); }
 @keyframes hearth-fall-asleep { from { background: rgba(0, 0, 0, 0); } to { background: rgba(0, 0, 0, .97); } }
 @keyframes hearth-dream-appears { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {

@@ -14,6 +14,26 @@ const awakeningPhrases = [
   "Rise gently",
 ];
 
+export const transportedDreamKey = "oaw-transported-hearth-dream";
+
+type TransportedDream = {
+  dream: (typeof hearthDreams)[number];
+  awakeningPhrase: string;
+};
+
+function takeTransportedDream(): TransportedDream | null {
+  if (typeof window === "undefined") return null;
+  const storedDream = window.sessionStorage.getItem(transportedDreamKey);
+  if (!storedDream) return null;
+
+  window.sessionStorage.removeItem(transportedDreamKey);
+  try {
+    return JSON.parse(storedDream) as TransportedDream;
+  } catch {
+    return null;
+  }
+}
+
 function randomItem<T>(items: readonly T[]) {
   const values = new Uint32Array(1);
   crypto.getRandomValues(values);
@@ -55,8 +75,9 @@ export function HearthDreamOverlay({
 }
 
 export default function HearthDream() {
-  const [dream, setDream] = useState<(typeof hearthDreams)[number] | null>(null);
-  const [awakeningPhrase, setAwakeningPhrase] = useState("Awaken");
+  const [transportedDream] = useState(takeTransportedDream);
+  const [dream, setDream] = useState<(typeof hearthDreams)[number] | null>(() => transportedDream?.dream ?? null);
+  const [awakeningPhrase, setAwakeningPhrase] = useState(() => transportedDream?.awakeningPhrase ?? "Awaken");
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const closeDream = () => {

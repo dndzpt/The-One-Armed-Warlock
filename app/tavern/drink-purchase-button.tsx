@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Session } from "@supabase/supabase-js";
-import { HearthDreamOverlay } from "../hearth-dream";
+import { HearthDreamOverlay, transportedDreamKey } from "../hearth-dream";
 import { hearthDreams } from "../hearth-dreams";
 import { supabase } from "../lib/supabase";
 import { drinkQuotes, enjoymentLabels, hearthInterventions, hearthRestLabels, steadyHeadings, steadyResponseLabels, steadyWarnings, unfocusedHeadings } from "./drink-quotes";
@@ -22,6 +23,7 @@ function randomItem<T>(items: readonly T[]): T {
 }
 
 export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { drinkId: number; drinkName: string; price: number }) {
+  const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -59,19 +61,21 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
   }, [interventionReady, yermaMode, yermaQuote]);
 
   function beginHearthRest() {
+    const selectedDream = randomItem(hearthDreams);
+    const selectedAwakeningLabel = randomItem(awakeningLabels);
     setYermaQuote("");
-    setDream(randomItem(hearthDreams));
-    setAwakeningLabel(randomItem(awakeningLabels));
+    setDream(selectedDream);
+    setAwakeningLabel(selectedAwakeningLabel);
+    window.sessionStorage.setItem(transportedDreamKey, JSON.stringify({
+      dream: selectedDream,
+      awakeningPhrase: selectedAwakeningLabel,
+    }));
+    window.setTimeout(() => router.replace("/hearthall#hearth", { scroll: false }), 50);
   }
 
   function finishYermaMessage() {
     if (yermaMode === "intervention") beginHearthRest();
     else setYermaQuote("");
-  }
-
-  function awakenInHearthall() {
-    setDream(null);
-    window.location.assign("/hearthall#hearth");
   }
 
   async function selectDrink() {
@@ -105,7 +109,10 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
       : "Yerma has entered your order.");
     setConfirmationBalance(null);
 
-    const fiveMinutesAgo = new Date(Date.now() - FIVE_MINUTES_MS).toISOString();
+    const resetKey = `oaw-drink-window-reset:${session.user.id}`;
+    const priorReset = Number(window.localStorage.getItem(resetKey) || 0);
+    const windowStart = Math.max(Date.now() - FIVE_MINUTES_MS, priorReset);
+    const fiveMinutesAgo = new Date(windowStart).toISOString();
     const { data: recentPurchases } = await supabase
       .from("purchases")
       .select("quantity")
@@ -115,6 +122,7 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
     const recentDrinkCount = recentPurchases?.reduce((total, recent) => total + recent.quantity, 0) ?? 0;
 
     if (recentDrinkCount >= 4) {
+      window.localStorage.setItem(resetKey, String(Date.now()));
       setInterventionReady(false);
       setYermaMode("intervention");
       setYermaHeading(randomItem(unfocusedHeadings));
@@ -171,6 +179,6 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
         <button className="yerma-toast-enjoy" autoFocus onClick={finishYermaMessage}>{enjoymentLabel}</button>
       </section> : <span className="inebriation-status" role="status">Your vision blurs. Yerma is beside you.</span>}
     </div>}
-    {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningLabel} onAwaken={awakenInHearthall} /> : null}
+    {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningLabel} onAwaken={() => {}} /> : null}
   </>;
 }
