@@ -52,7 +52,7 @@ export default function MobileNavigation({
       <nav
         id={`mobile-${theme}-navigation`}
         className="mobile-navigation-panel"
-        aria-label={`${theme === "tavern" ? "Tavern" : "Main"} mobile navigation`}
+        aria-label={`${theme === "tavern" ? "Tappery" : "Main"} mobile navigation`}
         hidden={!open}
       >
         {items.map((item) => (

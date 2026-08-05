@@ -13,11 +13,11 @@ export default function PatronsPage() {
   return (
     <main className="patrons-page">
       <header className="patrons-header">
-        <Link className="patrons-brand" href="/tavern">
+        <Link className="patrons-brand" href="/tappery">
           <img src="/oaw-logo.png" alt="" />
           <span>The One-Armed Warlock</span>
         </Link>
-        <Link className="back-to-tavern" href="/tavern">Return to the tavern</Link>
+        <Link className="back-to-tavern" href="/tappery">Return to the Tappery</Link>
       </header>
 
       <PatronIntro />

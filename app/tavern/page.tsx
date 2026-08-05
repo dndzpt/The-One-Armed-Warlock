@@ -6,8 +6,8 @@ import DrinkPurchaseButton from "./drink-purchase-button";
 import "./tavern.css";
 
 export const metadata: Metadata = {
-  title: "The Tavern | The One-Armed Warlock",
-  description: "Step inside The One-Armed Warlock, meet Hearthmother Yerma, and browse the first pours on the tavern menu.",
+  title: "The Tappery | The One-Armed Warlock",
+  description: "Step inside The Tappery, meet Hearthmother Yerma, and browse the first pours on the house menu.",
 };
 
 const drinks = [
@@ -19,7 +19,7 @@ const drinks = [
 
 const drinkIds = { IA: 1, MH: 2, MC: 3, YR: 4 } as const;
 
-export default function TavernPage() {
+export default function TapperyPage() {
   return (
     <main className="tavern-page">
       <header className="tavern-header">
@@ -27,12 +27,12 @@ export default function TavernPage() {
           <img src="/oaw-logo.png" alt="The One-Armed Warlock logo" />
           <span>The One-Armed Warlock</span>
         </Link>
-        <nav aria-label="Tavern navigation">
-          <Link href="/">The Threshold</Link><Link href="/guild-hall">Guild Hall</Link><a href="#menu">The Bar</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
+        <nav aria-label="Tappery navigation">
+          <Link href="/">The Threshold</Link><Link href="/hearthall">Hearthall</Link><a href="#menu">The Bar</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
         </nav>
         <MobileNavigation theme="tavern" items={[
           { href: "/", label: "The Threshold" },
-          { href: "/guild-hall", label: "Guild Hall" },
+          { href: "/hearthall", label: "Hearthall" },
           { href: "#menu", label: "The Bar" },
           { href: "#noticeboard", label: "Noticeboard" },
           { href: "/patrons", label: "Join" },
@@ -55,7 +55,7 @@ export default function TavernPage() {
       <section className="tavern-welcome">
         <p className="tavern-label">The house rules</p>
         <div><h2>All roads are welcome here.</h2><p>The One-Armed Warlock is a meeting place for adventurers, wanderers, chroniclers, and the merely thirsty. The menu is open to every visitor. Those ready to stay awhile may now add their name to the <Link href="/patrons">Patron Ledger</Link>.</p></div>
-        <ul aria-label="Tavern house rules"><li><span>01</span> Respect the house</li><li><span>02</span> Share the table</li><li><span>03</span> Leave a better tale</li></ul>
+        <ul aria-label="Tappery house rules"><li><span>01</span> Respect the house</li><li><span>02</span> Share the table</li><li><span>03</span> Leave a better tale</li></ul>
       </section>
 
       <section className="tavern-menu" id="menu">
@@ -73,18 +73,18 @@ export default function TavernPage() {
       </section>
 
       <section className="tavern-noticeboard" id="noticeboard">
-        <div className="notice-copy"><p className="tavern-label">Pinned by the hearth</p><h2>The Tavern Noticeboard</h2><p>Jobs, rumours, community gatherings, and rewards will soon find their way here. For now, consider this an empty hook waiting for its first notice.</p></div>
+        <div className="notice-copy"><p className="tavern-label">Pinned by the hearth</p><h2>The Tappery Noticeboard</h2><p>Jobs, rumours, community gatherings, and rewards will soon find their way here. For now, consider this an empty hook waiting for its first notice.</p></div>
         <div className="notice-paper" aria-label="Noticeboard preview"><span>Notice No. 001</span><strong>Patrons wanted</strong><p>The ledger opens soon. First round stories are already being gathered.</p><small>— YERMA</small></div>
       </section>
 
       <section className="tavern-connect" id="connect">
-        <p className="tavern-label">Beyond the tavern door</p>
+        <p className="tavern-label">Beyond the Tappery door</p>
         <h2>Follow the next tale.</h2>
         <p>Community updates, new stories, and adventures from The One-Armed Warlock will gather here.</p>
         <div className="tavern-socials" aria-label="Future social links"><span>Discord</span><span>YouTube</span><span>Instagram</span></div>
       </section>
 
-      <footer className="tavern-footer"><div className="tavern-footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div><p>The hearth is warm. The door is open.</p><Link href="/guild-hall">Return to the Guild Hall ↑</Link></footer>
+      <footer className="tavern-footer"><div className="tavern-footer-brand"><img src="/oaw-logo.png" alt="" /><span>The One-Armed Warlock</span></div><p>The hearth is warm. The door is open.</p><Link href="/hearthall">Return to Hearthall ↑</Link></footer>
     </main>
   );
 }

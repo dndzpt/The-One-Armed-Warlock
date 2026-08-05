@@ -13,20 +13,20 @@ async function render(pathname = "/") {
   );
 }
 
-test("renders the public tavern", async () => {
-  const response = await render("/tavern");
+test("renders the public Tappery", async () => {
+  const response = await render("/tappery");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /Guild Hall/);
+  assert.match(html, /Hearthall/);
   assert.match(html, /Pull up a chair/);
   assert.match(html, /Patron Ledger/);
-  assert.match(html, /aria-label="Tavern mobile navigation"/);
+  assert.match(html, /aria-label="Tappery mobile navigation"/);
   assert.match(html, /Navigation/);
   assert.match(html, /Join the Patron Ledger/);
   assert.match(html, /Copper Coins/);
   assert.match(html, /Hearthmother/);
   assert.doesNotMatch(html, /Chief Barmaid/i);
-  assert.match(html, /The Threshold[\s\S]*Guild Hall[\s\S]*The Bar[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
+  assert.match(html, /The Threshold[\s\S]*Hearthall[\s\S]*The Bar[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
   assert.match(html, /href="#menu">The Bar<\/a>/);
   assert.doesNotMatch(html, /href="#menu">Drinks<\/a>/);
   assert.match(html, /id="connect"/);
@@ -42,8 +42,8 @@ test("renders the Threshold with both paths", async () => {
   assert.match(html, /href="\/" aria-current="page">The Threshold/);
   assert.match(html, /class="threshold-paths"/);
   assert.match(html, /class="threshold-navigation"[^>]*><a href="\/" aria-current="page">The Threshold<\/a><\/nav>/);
-  assert.match(html, /Enter the Guild Hall/);
-  assert.match(html, /Enter the Tavern/);
+  assert.match(html, /Enter Hearthall/);
+  assert.match(html, /Enter the Tappery/);
   assert.doesNotMatch(html, /href="\/patrons">Join/);
 });
 
@@ -65,18 +65,18 @@ test("randomizes the framed Threshold artwork on each visit", async () => {
   assert.match(globalCss, /\.threshold-paths \{ grid-template-columns: 1fr; \}/);
 });
 
-test("keeps tavern and account creation reachable from the Guild Hall on mobile", async () => {
-  const response = await render("/guild-hall");
+test("keeps The Tappery and account creation reachable from Hearthall on mobile", async () => {
+  const response = await render("/hearthall");
   const html = await response.text();
   assert.match(html, /aria-label="Main mobile navigation"/);
   assert.match(html, /mobile-guild-navigation/);
   assert.match(html, /href="\/">The Threshold/);
-  assert.match(html, /href="\/tavern">Tavern/);
+  assert.match(html, /href="\/tappery">The Tappery/);
   assert.match(html, /href="\/patrons">Join/);
   assert.doesNotMatch(html, /Create an account/);
   assert.match(html, /class="button secondary" href="\/patrons">Join<\/a>/);
   assert.match(html, /Explore[\s\S]*Join[\s\S]*Connect/);
-  assert.match(html, /Welcome to the Guild Hall/);
+  assert.match(html, /Welcome to Hearthall/);
 });
 
 test("mobile navigation expands accessibly and closes after selection", async () => {
@@ -117,7 +117,7 @@ test("awards daily Copper Coins and protects Tavern purchases", async () => {
   assert.match(ledgerSource, /rpc\("get_my_orders_today"\)/);
   assert.match(ledgerSource, /rpc\("get_my_drink_totals"\)/);
   assert.match(ledgerSource, /Today&apos;s Orders/);
-  assert.match(ledgerSource, /Tavern Totals/);
+  assert.match(ledgerSource, /Tappery Totals/);
   assert.doesNotMatch(ledgerSource, /Coin ledger/);
   assert.doesNotMatch(ledgerSource, /Purchase records/);
   assert.match(ledgerSource, /balance === UNLIMITED_COPPER \? "Unlimited" : balance/);

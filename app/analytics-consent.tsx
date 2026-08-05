@@ -76,7 +76,7 @@ export default function AnalyticsConsent() {
           <div>
             <p className="analytics-consent-label">A note from the ledger</p>
             <h2>May we count your visit?</h2>
-            <p>We use Google Analytics to understand which parts of the Guild Hall are useful. Analytics stays off unless you accept, and we do not send account passwords or verification codes.</p>
+            <p>We use Google Analytics to understand which parts of Hearthall are useful. Analytics stays off unless you accept, and we do not send account passwords or verification codes.</p>
           </div>
           <div className="analytics-consent-actions">
             <button type="button" className="analytics-accept" onClick={() => saveChoice("accepted")}>Accept analytics</button>

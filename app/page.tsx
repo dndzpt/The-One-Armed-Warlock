@@ -27,9 +27,9 @@ export default function Threshold() {
               celebrating the spirit of imagination.
             </p>
             <p>
-              Beyond this threshold lie two paths. The <strong>Guild Hall</strong> is
+              Beyond this threshold lie two paths. <strong>Hearthall</strong> is
               home to our projects, chronicles, and creations, where new ideas are
-              forged and shared. The <strong>Tavern</strong> offers a place to rest by
+              forged and shared. <strong>The Tappery</strong> offers a place to rest by
               the hearth, enjoy a drink with fellow Patrons, and become part of our
               growing community.
             </p>
@@ -41,8 +41,8 @@ export default function Threshold() {
             </p>
           </div>
           <nav className="threshold-paths" aria-label="Continue beyond the Threshold">
-            <Link href="/guild-hall">Enter the Guild Hall</Link>
-            <Link href="/tavern">Enter the Tavern</Link>
+            <Link href="/hearthall">Enter Hearthall</Link>
+            <Link href="/tappery">Enter the Tappery</Link>
           </nav>
         </div>
         <ThresholdGallery />

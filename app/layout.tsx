@@ -17,20 +17,20 @@ const sans = Geist({
 export const metadata: Metadata = {
   metadataBase: new URL("https://theonearmedwarlock.com"),
   title: "The One-Armed Warlock | Threshold",
-  description: "Cross the threshold into The One-Armed Warlock Guild Hall and Tavern.",
+  description: "Cross the threshold into The One-Armed Warlock Hearthall and The Tappery.",
   icons: { icon: "/oaw-logo.png", shortcut: "/oaw-logo.png" },
   openGraph: {
     title: "Welcome, traveler | The One-Armed Warlock",
-    description: "Two paths await: enter the Guild Hall or pull up a chair in the Tavern.",
+    description: "Two paths await: enter Hearthall or pull up a chair in The Tappery.",
     url: "/",
     siteName: "The One-Armed Warlock",
-    images: [{ url: "/og.png", width: 1800, height: 900, alt: "The One-Armed Warlock — The Tavern is Open" }],
+    images: [{ url: "/og.png", width: 1800, height: 900, alt: "The One-Armed Warlock — The Tappery is Open" }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Welcome, traveler | The One-Armed Warlock",
-    description: "Two paths await: enter the Guild Hall or pull up a chair in the Tavern.",
+    description: "Two paths await: enter Hearthall or pull up a chair in The Tappery.",
     images: ["/og.png"],
   },
 };

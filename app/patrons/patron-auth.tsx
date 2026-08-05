@@ -207,7 +207,7 @@ export default function PatronAuth() {
           </article>)}
         </div>
         <div className="ledger-history tavern-totals">
-          <div><span>Tavern Totals</span><strong>Lifetime pours</strong></div>
+          <div><span>Tappery Totals</span><strong>Lifetime pours</strong></div>
           {drinkTotals.map((drink) => <article key={drink.drink_id}>
             <p><strong>{drink.drink_name}</strong><small>All visits</small></p>
             <b>{drink.total_quantity}</b>
@@ -247,7 +247,7 @@ export default function PatronAuth() {
       </form>}
 
       {view === "login" && <form onSubmit={login}>
-        <p className="form-eyebrow">Already in the ledger?</p><h2>Enter the tavern</h2>
+        <p className="form-eyebrow">Already in the ledger?</p><h2>Enter the Tappery</h2>
         <label>Email address<input name="email" type="email" autoComplete="email" required /></label>
         <label>Password<input name="password" type="password" autoComplete="current-password" required /></label>
         <button className="primary-button" disabled={busy}>{busy ? "Checking the ledger…" : "Sign in"}</button>

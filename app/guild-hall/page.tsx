@@ -3,7 +3,7 @@ import MobileNavigation from "../mobile-navigation";
 import PatronNavigationLink from "../patron-navigation-link";
 
 export const metadata: Metadata = {
-  title: "The Guild Hall | The One-Armed Warlock",
+  title: "Hearthall | The One-Armed Warlock",
   description: "Home to The One-Armed Warlock projects, campaign world, and shared adventures.",
 };
 
@@ -13,17 +13,17 @@ const sections = [
   { number: "03", title: "The Chronicle", text: "Catch up on past sessions, major discoveries, and the decisions that brought us here." },
 ];
 
-export default function GuildHall() {
+export default function Hearthall() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="The Guild Hall home">
+        <a className="brand" href="#top" aria-label="Hearthall home">
           <img src="/oaw-logo.png" alt="The One-Armed Warlock logo" />
           <span>The One-Armed Warlock</span>
         </a>
-        <nav aria-label="Guild Hall navigation">
+        <nav aria-label="Hearthall navigation">
           <a href="/">The Threshold</a>
-          <a href="/tavern">Tavern</a>
+          <a href="/tappery">The Tappery</a>
           <a href="#about">About</a>
           <a href="#explore">Explore</a>
           <PatronNavigationLink />
@@ -31,7 +31,7 @@ export default function GuildHall() {
         </nav>
         <MobileNavigation items={[
           { href: "/", label: "The Threshold" },
-          { href: "/tavern", label: "Tavern" },
+          { href: "/tappery", label: "The Tappery" },
           { href: "#about", label: "About" },
           { href: "#explore", label: "Explore" },
           { href: "/patrons", label: "Join" },
@@ -41,11 +41,11 @@ export default function GuildHall() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <p className="eyebrow">The Guild Hall</p>
+          <p className="eyebrow">Hearthall</p>
           <h1>Every great story starts around a table.</h1>
-          <p className="intro">Welcome to the Guild Hall — home to our party, our game world, and the tales we create together one roll at a time.</p>
+          <p className="intro">Welcome to Hearthall — home to our party, our game world, and the tales we create together one roll at a time.</p>
           <div className="hero-actions">
-            <a className="button" href="/tavern">Enter the tavern <span aria-hidden="true">→</span></a>
+            <a className="button" href="/tappery">Enter the Tappery <span aria-hidden="true">→</span></a>
             <PatronNavigationLink className="button secondary" />
           </div>
         </div>
