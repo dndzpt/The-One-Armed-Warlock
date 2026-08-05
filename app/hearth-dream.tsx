@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { hearthDreams } from "./hearth-dreams";
 
 const awakeningPhrases = [
@@ -22,7 +23,6 @@ type TransportedDream = {
 };
 
 function takeTransportedDream(): TransportedDream | null {
-  if (typeof window === "undefined") return null;
   const storedDream = window.sessionStorage.getItem(transportedDreamKey);
   if (!storedDream) return null;
 
@@ -44,10 +44,12 @@ export function HearthDreamOverlay({
   dream,
   awakeningPhrase,
   onAwaken,
+  alreadyAsleep = false,
 }: {
   dream: (typeof hearthDreams)[number];
   awakeningPhrase: string;
   onAwaken: () => void;
+  alreadyAsleep?: boolean;
 }) {
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -63,7 +65,7 @@ export function HearthDreamOverlay({
   }, [onAwaken]);
 
   return (
-    <div className="hearth-dream-backdrop" role="presentation">
+    <div className={`hearth-dream-backdrop${alreadyAsleep ? " already-asleep" : ""}`} role="presentation">
       <article className="hearth-dream-dialog" role="dialog" aria-modal="true" aria-labelledby="hearth-dream-title" aria-describedby="hearth-dream-text">
         <p className="hearth-dream-whisper">You fall into a dream...</p>
         <h3 id="hearth-dream-title">{dream.title}</h3>
@@ -75,13 +77,25 @@ export function HearthDreamOverlay({
 }
 
 export default function HearthDream() {
-  const [transportedDream] = useState(takeTransportedDream);
-  const [dream, setDream] = useState<(typeof hearthDreams)[number] | null>(() => transportedDream?.dream ?? null);
-  const [awakeningPhrase, setAwakeningPhrase] = useState(() => transportedDream?.awakeningPhrase ?? "Awaken");
+  const searchParams = useSearchParams();
+  const isArrivingFromTappery = searchParams.get("rest") === "1";
+  const [dream, setDream] = useState<(typeof hearthDreams)[number] | null>(null);
+  const [awakeningPhrase, setAwakeningPhrase] = useState("Awaken");
+  const [handoffComplete, setHandoffComplete] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const transportedDream = takeTransportedDream();
+    if (transportedDream) {
+      setDream(transportedDream.dream);
+      setAwakeningPhrase(transportedDream.awakeningPhrase);
+    }
+    setHandoffComplete(true);
+  }, []);
 
   const closeDream = () => {
     setDream(null);
+    if (isArrivingFromTappery) window.history.replaceState(null, "", "/hearthall#hearth");
     window.setTimeout(() => triggerRef.current?.focus(), 50);
   };
 
@@ -93,7 +107,8 @@ export default function HearthDream() {
   return (
     <>
       <button ref={triggerRef} type="button" onClick={beginDream}>Close your eyes...</button>
-      {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningPhrase} onAwaken={closeDream} /> : null}
+      {isArrivingFromTappery && !handoffComplete ? <div className="hearth-dream-backdrop already-asleep" aria-hidden="true" /> : null}
+      {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningPhrase} onAwaken={closeDream} alreadyAsleep={isArrivingFromTappery} /> : null}
     </>
   );
 }

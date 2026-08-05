@@ -196,8 +196,9 @@ test("shows a randomized Yerma message after each successful drink purchase", as
 });
 
 test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream", async () => {
-  const [purchaseSource, quotesSource, tavernCss] = await Promise.all([
+  const [purchaseSource, dreamSource, quotesSource, tavernCss] = await Promise.all([
     readFile(new URL("../app/tavern/drink-purchase-button.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/hearth-dream.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/tavern/drink-quotes.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/tavern/tavern.css", import.meta.url), "utf8"),
   ]);
@@ -212,10 +213,15 @@ test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream
   assert.match(purchaseSource, /randomItem\(unfocusedHeadings\)/);
   assert.match(purchaseSource, /INTERVENTION_BLUR_MS = 5000/);
   assert.match(purchaseSource, /yermaMode !== "intervention" \|\| interventionReady/);
-  assert.match(purchaseSource, /<HearthDreamOverlay/);
+  assert.match(dreamSource, /<HearthDreamOverlay/);
   assert.match(purchaseSource, /window\.localStorage\.setItem\(resetKey, String\(Date\.now\(\)\)\)/);
   assert.match(purchaseSource, /window\.sessionStorage\.setItem\(transportedDreamKey/);
-  assert.match(purchaseSource, /router\.replace\("\/hearthall#hearth", \{ scroll: false \}\)/);
+  assert.match(purchaseSource, /FALL_ASLEEP_MS = 1700/);
+  assert.match(purchaseSource, /router\.replace\("\/hearthall\?rest=1#hearth", \{ scroll: false \}\)/);
+  assert.match(purchaseSource, /hearth-dream-transport/);
+  assert.match(dreamSource, /useEffect\(\(\) => \{\s+const transportedDream = takeTransportedDream\(\)/);
+  assert.match(dreamSource, /setDream\(transportedDream\.dream\)/);
+  assert.match(dreamSource, /alreadyAsleep=\{isArrivingFromTappery\}/);
   assert.match(quotesSource, /Steady there, traveler\. These pours are brewed strong!/);
   assert.match(quotesSource, /You feel a tingling in your fingers/);
   assert.match(quotesSource, /Don't worry, I've got you\. Let's set you down by the hearth/);

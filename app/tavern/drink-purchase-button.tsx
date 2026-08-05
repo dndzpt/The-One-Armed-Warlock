@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Session } from "@supabase/supabase-js";
-import { HearthDreamOverlay, transportedDreamKey } from "../hearth-dream";
+import { transportedDreamKey } from "../hearth-dream";
 import { hearthDreams } from "../hearth-dreams";
 import { supabase } from "../lib/supabase";
 import { drinkQuotes, enjoymentLabels, hearthInterventions, hearthRestLabels, steadyHeadings, steadyResponseLabels, steadyWarnings, unfocusedHeadings } from "./drink-quotes";
@@ -14,6 +14,7 @@ type YermaMode = "drink" | "warning" | "intervention";
 const UNLIMITED_COPPER = 2147483647;
 const FIVE_MINUTES_MS = 5 * 60 * 1000;
 const INTERVENTION_BLUR_MS = 5000;
+const FALL_ASLEEP_MS = 1700;
 const awakeningLabels = ["Awaken", "Open your eyes", "Return to the firelight", "Wake by the Hearth", "Let the dream fade", "Stir from your slumber", "Return to the Hearthall", "Rise gently"];
 
 function randomItem<T>(items: readonly T[]): T {
@@ -34,8 +35,7 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
   const [yermaMode, setYermaMode] = useState<YermaMode>("drink");
   const [yermaHeading, setYermaHeading] = useState(drinkName);
   const [interventionReady, setInterventionReady] = useState(true);
-  const [dream, setDream] = useState<(typeof hearthDreams)[number] | null>(null);
-  const [awakeningLabel, setAwakeningLabel] = useState("Awaken");
+  const [transportingToHearth, setTransportingToHearth] = useState(false);
   const [confirmationBalance, setConfirmationBalance] = useState<number | null>(null);
   const [checkingBalance, setCheckingBalance] = useState(false);
 
@@ -64,13 +64,12 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
     const selectedDream = randomItem(hearthDreams);
     const selectedAwakeningLabel = randomItem(awakeningLabels);
     setYermaQuote("");
-    setDream(selectedDream);
-    setAwakeningLabel(selectedAwakeningLabel);
     window.sessionStorage.setItem(transportedDreamKey, JSON.stringify({
       dream: selectedDream,
       awakeningPhrase: selectedAwakeningLabel,
     }));
-    window.setTimeout(() => router.replace("/hearthall#hearth", { scroll: false }), 50);
+    setTransportingToHearth(true);
+    window.setTimeout(() => router.replace("/hearthall?rest=1#hearth", { scroll: false }), FALL_ASLEEP_MS);
   }
 
   function finishYermaMessage() {
@@ -179,6 +178,6 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
         <button className="yerma-toast-enjoy" autoFocus onClick={finishYermaMessage}>{enjoymentLabel}</button>
       </section> : <span className="inebriation-status" role="status">Your vision blurs. Yerma is beside you.</span>}
     </div>}
-    {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningLabel} onAwaken={() => {}} /> : null}
+    {transportingToHearth ? <div className="hearth-dream-backdrop hearth-dream-transport" aria-label="You drift into sleep" /> : null}
   </>;
 }

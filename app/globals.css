@@ -112,6 +112,8 @@ h1 { font-size: clamp(62px, 8vw, 124px); max-width: 940px; letter-spacing: -.04e
 .hearthall-dream button { margin-top: 36px; border: 1px solid rgba(255, 241, 215, .46); padding: 16px 22px; color: #fff1d7; background: rgba(255, 241, 215, .04); font: inherit; font-size: 11px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: border-color .25s, background .25s, color .25s; }
 .hearthall-dream button:hover, .hearthall-dream button:focus-visible { border-color: #e3aa76; color: #fff; background: rgba(227, 170, 118, .12); }
 .hearth-dream-backdrop { position: fixed; z-index: 200; inset: 0; padding: 24px; display: grid; place-items: center; overflow-y: auto; color: #f7ead0; background: rgba(0, 0, 0, .97); animation: hearth-fall-asleep 1.65s ease-out both; }
+.hearth-dream-backdrop.hearth-dream-transport { background: #000; }
+.hearth-dream-backdrop.already-asleep { background: #000; animation: none; }
 .hearth-dream-dialog { width: min(760px, 100%); padding: clamp(34px, 6vw, 72px); border: 1px solid rgba(227, 170, 118, .28); position: relative; text-align: center; background: radial-gradient(circle at 50% 0, rgba(113, 58, 27, .25), transparent 54%); box-shadow: 0 0 120px rgba(109, 49, 19, .2); animation: hearth-dream-appears 1.35s ease .75s both; }
 .hearth-dream-dialog::before, .hearth-dream-dialog::after { content: ""; width: 52px; height: 1px; position: absolute; top: 24px; background: rgba(227, 170, 118, .5); }
 .hearth-dream-dialog::before { left: 24px; }
