@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
-:root { --ink: #171611; --paper: #f4f0e7; --rust: #a4422d; --muted: #6d675b; --line: #cfc6b6; }
+@font-face { font-family: "OAW Cormorant Garamond"; src: url("/fonts/cormorant-garamond-latin.woff2") format("woff2"); font-style: normal; font-weight: 500 700; font-display: swap; }
+@font-face { font-family: "OAW Geist"; src: url("/fonts/geist-latin.woff2") format("woff2"); font-style: normal; font-weight: 100 900; font-display: swap; }
+
+:root { --ink: #171611; --paper: #f4f0e7; --rust: #a4422d; --muted: #6d675b; --line: #cfc6b6; --font-display: "OAW Cormorant Garamond"; --font-sans: "OAW Geist"; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans), sans-serif; }
