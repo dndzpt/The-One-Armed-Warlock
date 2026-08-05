@@ -26,10 +26,7 @@ main { overflow-x: clip; }
 .threshold-text strong { color: var(--ink); font-weight: 650; }
 .threshold-gallery { width: min(29vw, 410px); margin: 0; justify-self: center; display: grid; justify-items: center; gap: 20px; }
 .threshold-gallery figcaption { color: var(--rust); font-family: var(--font-display), serif; font-size: 18px; font-style: italic; letter-spacing: .045em; text-align: center; }
-.threshold-frame { width: 100%; padding: clamp(16px, 1.5vw, 23px); position: relative; background: linear-gradient(90deg, #3b1d0d 0 7%, #70411f 18%, #3a1b0c 48%, #80502a 78%, #351707 100%); border: 2px solid #241006; box-shadow: 0 24px 45px rgba(34, 18, 8, .26), inset 0 0 0 3px #9b6838, inset 0 0 0 7px #2a1106; transform: rotate(.65deg); }
-.threshold-frame::before, .threshold-frame::after { content: ""; position: absolute; z-index: 2; pointer-events: none; }
-.threshold-frame::before { inset: 8px; border: 1px solid rgba(223, 169, 99, .5); box-shadow: inset 0 0 14px rgba(0, 0, 0, .7); }
-.threshold-frame::after { inset: 0; opacity: .42; background: repeating-linear-gradient(4deg, transparent 0 18px, rgba(22, 8, 2, .55) 19px, transparent 21px 39px); mix-blend-mode: multiply; }
+.threshold-frame { width: 100%; position: relative; background: #2a160d; border: clamp(30px, 3.2vw, 48px) solid transparent; border-image: url("/threshold/frame.webp") 200 190 220 190 / 1 / 0 stretch; filter: drop-shadow(0 24px 22px rgba(34, 18, 8, .28)); transform: rotate(.4deg); }
 .threshold-frame-inner { width: 100%; aspect-ratio: 2 / 3; overflow: hidden; position: relative; border: 4px solid #160a04; background: #23150d; box-shadow: inset 0 0 24px rgba(0, 0, 0, .75); }
 .threshold-frame-inner img { width: 100%; height: 100%; display: block; object-fit: cover; animation: threshold-image-reveal .55s ease-out both; }
 .threshold-image-loading { width: 100%; height: 100%; display: block; background: radial-gradient(circle at 50% 45%, #55321a, #1d1009 72%); }

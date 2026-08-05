@@ -56,6 +56,8 @@ test("randomizes the framed Threshold artwork on each visit", async () => {
   assert.match(gallerySource, /The door is never where you left it/);
   assert.match(globalCss, /\.threshold-frame/);
   assert.match(globalCss, /aspect-ratio:\s*2 \/ 3/);
+  assert.match(globalCss, /border-image:\s*url\("\/threshold\/frame\.webp"\)/);
+  assert.doesNotMatch(globalCss, /repeating-linear-gradient\(4deg/);
   assert.match(globalCss, /\.threshold-gallery \{ width: min\(72vw, 390px\)/);
 });
 
