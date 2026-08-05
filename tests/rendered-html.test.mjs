@@ -195,6 +195,26 @@ test("shows a randomized Yerma message after each successful drink purchase", as
   assert.match(tavernCss, /\.yerma-toast-backdrop/);
 });
 
+test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream", async () => {
+  const [purchaseSource, quotesSource, tavernCss] = await Promise.all([
+    readFile(new URL("../app/tavern/drink-purchase-button.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/drink-quotes.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/tavern/tavern.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(purchaseSource, /FIVE_MINUTES_MS = 5 \* 60 \* 1000/);
+  assert.match(purchaseSource, /\.eq\("patron_id", session\.user\.id\)/);
+  assert.match(purchaseSource, /\.gte\("purchased_at", fiveMinutesAgo\)/);
+  assert.match(purchaseSource, /recentDrinkCount >= 4/);
+  assert.match(purchaseSource, /recentDrinkCount >= 3/);
+  assert.match(purchaseSource, /randomItem\(steadyWarnings\)/);
+  assert.match(purchaseSource, /randomItem\(hearthInterventions\)/);
+  assert.match(purchaseSource, /<HearthDreamOverlay/);
+  assert.match(quotesSource, /Steady there, traveler\. These pours are brewed strong!/);
+  assert.match(quotesSource, /Don't worry, I've got you\. Let's set you down by the hearth/);
+  assert.match(tavernCss, /\.yerma-toast-backdrop\.inebriation-backdrop/);
+  assert.match(tavernCss, /backdrop-filter:blur\(24px\)/);
+});
+
 test("keeps navigation visible while pages scroll", async () => {
   const [globalCss, tavernCss, patronsCss] = await Promise.all([
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),

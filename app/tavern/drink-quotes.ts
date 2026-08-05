@@ -77,3 +77,35 @@ export const enjoymentLabels = [
   "Cheers, Hearthmother",
   "I'll savor it",
 ];
+
+export const steadyWarnings = [
+  "Steady there, traveler. These pours are brewed strong!",
+  "Easy now, dear. Three quick cups can make even a familiar floor wander.",
+  "Mind your footing, traveler. The Tappery's brews have more courage than patience.",
+  "A little slower now. These mugs are best enjoyed with a story between them.",
+  "Careful, patron. Even seasoned adventurers know when to let a strong pour settle.",
+  "Take a breath between cups, dear. The night is young, and the hearth isn't going anywhere.",
+];
+
+export const hearthInterventions = [
+  "Don't worry, I've got you. Let's set you down by the hearth to rest your head for a while...",
+  "That's enough adventuring for one evening. Come along; the hearth has a quiet place for you.",
+  "Easy now, traveler. Lean on me, and we'll find you somewhere warm to rest.",
+  "The room has started wandering, hasn't it? I've got you. Let's sit by the fire a while.",
+  "No shame in resting, dear. The hearth is warm, and I'll make sure you reach it safely.",
+  "Yerma's orders: no more cups, only a soft chair and a little sleep beside the fire.",
+];
+
+export const hearthRestLabels = [
+  "Rest by the Hearth",
+  "Let Yerma help",
+  "Follow Yerma",
+  "Rest my head",
+];
+
+export const steadyResponseLabels = [
+  "I'll take it steady",
+  "I'll pace myself",
+  "A moment between mugs",
+  "Message received, Hearthmother",
+];

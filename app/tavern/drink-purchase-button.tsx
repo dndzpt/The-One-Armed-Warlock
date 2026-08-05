@@ -2,14 +2,19 @@
 
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
+import { HearthDreamOverlay } from "../hearth-dream";
+import { hearthDreams } from "../hearth-dreams";
 import { supabase } from "../lib/supabase";
-import { drinkQuotes, enjoymentLabels } from "./drink-quotes";
+import { drinkQuotes, enjoymentLabels, hearthInterventions, hearthRestLabels, steadyResponseLabels, steadyWarnings } from "./drink-quotes";
 
 type PurchaseResult = { balance: number; tavern_message: string };
 type AllowanceResult = { balance: number; awarded: boolean; amount: number };
+type YermaMode = "drink" | "warning" | "intervention";
 const UNLIMITED_COPPER = 2147483647;
+const FIVE_MINUTES_MS = 5 * 60 * 1000;
+const awakeningLabels = ["Awaken", "Open your eyes", "Return to the firelight", "Wake by the Hearth", "Let the dream fade", "Stir from your slumber", "Return to the Hearthall", "Rise gently"];
 
-function randomItem<T>(items: T[]): T {
+function randomItem<T>(items: readonly T[]): T {
   const values = new Uint32Array(1);
   crypto.getRandomValues(values);
   return items[values[0] % items.length];
@@ -23,6 +28,9 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
   const [isError, setIsError] = useState(false);
   const [yermaQuote, setYermaQuote] = useState("");
   const [enjoymentLabel, setEnjoymentLabel] = useState("");
+  const [yermaMode, setYermaMode] = useState<YermaMode>("drink");
+  const [dream, setDream] = useState<(typeof hearthDreams)[number] | null>(null);
+  const [awakeningLabel, setAwakeningLabel] = useState("Awaken");
   const [confirmationBalance, setConfirmationBalance] = useState<number | null>(null);
   const [checkingBalance, setCheckingBalance] = useState(false);
 
@@ -35,11 +43,22 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
   useEffect(() => {
     if (!yermaQuote) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setYermaQuote("");
+      if (event.key === "Escape") finishYermaMessage();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [yermaQuote]);
+  }, [yermaQuote, yermaMode]);
+
+  function beginHearthRest() {
+    setYermaQuote("");
+    setDream(randomItem(hearthDreams));
+    setAwakeningLabel(randomItem(awakeningLabels));
+  }
+
+  function finishYermaMessage() {
+    if (yermaMode === "intervention") beginHearthRest();
+    else setYermaQuote("");
+  }
 
   async function selectDrink() {
     setCheckingBalance(true); setMessage(""); setIsError(false);
@@ -55,6 +74,7 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
   }
 
   async function purchase() {
+    if (!session) return;
     setBusy(true); setMessage(""); setIsError(false);
     const { data, error } = await supabase.rpc("purchase_drink", { p_drink_id: drinkId, p_quantity: 1 });
     setBusy(false);
@@ -70,8 +90,29 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
       ? result.balance === UNLIMITED_COPPER ? "Unlimited Copper Coins remain." : `${result.balance} Copper Coins remain.`
       : "Yerma has entered your order.");
     setConfirmationBalance(null);
-    setYermaQuote(randomItem(drinkQuotes[drinkId]));
-    setEnjoymentLabel(randomItem(enjoymentLabels));
+
+    const fiveMinutesAgo = new Date(Date.now() - FIVE_MINUTES_MS).toISOString();
+    const { data: recentPurchases } = await supabase
+      .from("purchases")
+      .select("quantity")
+      .eq("patron_id", session.user.id)
+      .eq("status", "completed")
+      .gte("purchased_at", fiveMinutesAgo);
+    const recentDrinkCount = recentPurchases?.reduce((total, recent) => total + recent.quantity, 0) ?? 0;
+
+    if (recentDrinkCount >= 4) {
+      setYermaMode("intervention");
+      setYermaQuote(randomItem(hearthInterventions));
+      setEnjoymentLabel(randomItem(hearthRestLabels));
+    } else if (recentDrinkCount >= 3) {
+      setYermaMode("warning");
+      setYermaQuote(randomItem(steadyWarnings));
+      setEnjoymentLabel(randomItem(steadyResponseLabels));
+    } else {
+      setYermaMode("drink");
+      setYermaQuote(randomItem(drinkQuotes[drinkId]));
+      setEnjoymentLabel(randomItem(enjoymentLabels));
+    }
   }
 
   if (!ready) return <span className="purchase-placeholder">Checking the ledger…</span>;
@@ -98,17 +139,18 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
           </div>}
       {message && isError && <p className="purchase-message error" role="status">{message}</p>}
     </div>
-    {yermaQuote && <div className="yerma-toast-backdrop" role="presentation" onMouseDown={(event) => {
-      if (event.target === event.currentTarget) setYermaQuote("");
+    {yermaQuote && <div className={`yerma-toast-backdrop${yermaMode === "intervention" ? " inebriation-backdrop" : ""}`} role="presentation" onMouseDown={(event) => {
+      if (event.target === event.currentTarget) finishYermaMessage();
     }}>
       <section className="yerma-toast" role="dialog" aria-modal="true" aria-labelledby={`yerma-message-${drinkId}`}>
-        <button className="yerma-toast-close" onClick={() => setYermaQuote("")} aria-label="Close Yerma's message">×</button>
-        <p className="yerma-toast-kicker">A word from the Hearthmother</p>
+        <button className="yerma-toast-close" onClick={finishYermaMessage} aria-label={yermaMode === "intervention" ? "Rest by the Hearth" : "Close Yerma's message"}>×</button>
+        <p className="yerma-toast-kicker">{yermaMode === "intervention" ? "Hearthmother's orders" : "A word from the Hearthmother"}</p>
         <h3 id={`yerma-message-${drinkId}`}>{drinkName}</h3>
         <blockquote>“{yermaQuote}”</blockquote>
         <p className="yerma-toast-balance" role="status">{message}</p>
-        <button className="yerma-toast-enjoy" autoFocus onClick={() => setYermaQuote("")}>{enjoymentLabel}</button>
+        <button className="yerma-toast-enjoy" autoFocus onClick={finishYermaMessage}>{enjoymentLabel}</button>
       </section>
     </div>}
+    {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningLabel} onAwaken={() => setDream(null)} /> : null}
   </>;
 }
