@@ -5,14 +5,8 @@ import PatronNavigationLink from "../patron-navigation-link";
 
 export const metadata: Metadata = {
   title: "Hearthall | The One-Armed Warlock",
-  description: "Home to The One-Armed Warlock projects, campaign world, and shared adventures.",
+  description: "Gather around the Hearthall for news, creations, fellowship, and stories from The One-Armed Warlock.",
 };
-
-const sections = [
-  { number: "01", title: "The Party", text: "Meet the adventurers, learn their stories, and follow how the group changes over time." },
-  { number: "02", title: "The World", text: "Explore the places, factions, lore, and memorable characters that shape our campaign." },
-  { number: "03", title: "The Chronicle", text: "Catch up on past sessions, major discoveries, and the decisions that brought us here." },
-];
 
 export default function Hearthall() {
   return (
@@ -38,28 +32,44 @@ export default function Hearthall() {
         ]} />
       </header>
 
-      <section className="hero" id="top">
-        <div className="hero-copy">
-          <p className="eyebrow">Hearthall</p>
-          <h1>Every great story starts around a table.</h1>
-          <p className="intro">Welcome to Hearthall — home to our party, our game world, and the tales we create together one roll at a time.</p>
+      <section className="hearthall-welcome" id="top">
+        <div className="hearthall-welcome-copy">
+          <p className="eyebrow">The Hearthall</p>
+          <h1>Welcome to the Hearthall</h1>
+          <p className="hearthall-lede">Every great inn is remembered not for its walls, but for its hearth.</p>
+          <div className="hearthall-welcome-text">
+            <p>It is where travelers gather after long journeys, where old friends reunite, where new stories are first imagined, and where tomorrow&apos;s adventures quietly begin.</p>
+            <p>Here in the Hearthall you&apos;ll find the latest news from around <strong>The One-Armed Warlock</strong>, discover our newest creations, and catch up on all that&apos;s happening throughout the inn. Pull up a chair, take in the warmth, and stay as long as you like.</p>
+            <p>There&apos;s always room for one more around the fire.</p>
+          </div>
           <div className="hero-actions">
             <a className="button" href="/tappery">Visit the Tappery <span aria-hidden="true">→</span></a>
             <PatronNavigationLink className="button secondary" />
           </div>
         </div>
-        <div className="hero-mark" aria-hidden="true"><img src="/oaw-logo.png" alt="" /><span>Est. at the table</span></div>
+        <div className="hearthall-mark" aria-hidden="true"><img src="/oaw-logo.png" alt="" /><span>There is room by the fire</span></div>
       </section>
 
-      <section className="about" id="about">
-        <p className="section-label">Our campaign</p>
-        <div><h2>A shared world, built together.</h2><p>This is the future home of everything The One-Armed Warlock: character stories, campaign lore, session recaps, artwork, and useful links for the group. The archive will grow as the adventure does.</p></div>
+      <section className="hearthall-noticeboard" id="noticeboard">
+        <div className="hearthall-section-copy">
+          <p className="section-label">News from around the inn</p>
+          <h2>The Noticeboard</h2>
+          <p>Announcements, new creations, and the latest word from The One-Armed Warlock will be pinned here.</p>
+        </div>
+        <article className="hearthall-placeholder-card">
+          <span>Noticeboard preparations</span>
+          <h3>The first notice is being written.</h3>
+          <p>Publishing tools for the master OAW account are coming soon.</p>
+        </article>
       </section>
 
-      <section className="explore" id="explore">
-        <div className="section-heading"><p className="section-label">Explore the archive</p><h2>What you’ll find here</h2></div>
-        <div className="cards">
-          {sections.map((section) => <article className="card" key={section.number}><span>{section.number}</span><h3>{section.title}</h3><p>{section.text}</p><small>Coming soon</small></article>)}
+      <section className="hearthall-dream" id="hearth">
+        <div className="hearthall-dream-glow" aria-hidden="true" />
+        <div className="hearthall-dream-copy">
+          <p className="section-label">A quiet place beside the fire</p>
+          <h2>Rest by the Hearth</h2>
+          <p>Soon, any traveler may settle into the warmth, close their eyes, and drift into a dream chosen by the Hearthall.</p>
+          <button type="button" disabled>Dreams are gathering</button>
         </div>
       </section>
 

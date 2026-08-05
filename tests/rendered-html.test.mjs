@@ -82,7 +82,13 @@ test("keeps The Tappery, locked Doors, and account creation reachable from Heart
   assert.match(html, /Doors[\s\S]*Guildhall[\s\S]*Library[\s\S]*Music Chamber[\s\S]*Gallery[\s\S]*Join[\s\S]*Connect/);
   assert.doesNotMatch(html, />About<\/a>/);
   assert.doesNotMatch(html, />Explore<\/a>/);
-  assert.match(html, /Welcome to Hearthall/);
+  assert.match(html, /Welcome to the Hearthall/);
+  assert.match(html, /Every great inn is remembered not for its walls, but for its hearth/);
+  assert.match(html, /The Noticeboard/);
+  assert.match(html, /Publishing tools for the master OAW account are coming soon/);
+  assert.match(html, /Rest by the Hearth/);
+  assert.match(html, /Dreams are gathering/);
+  assert.doesNotMatch(html, /Every great story starts around a table/);
 });
 
 test("mobile navigation expands accessibly and closes after selection", async () => {
