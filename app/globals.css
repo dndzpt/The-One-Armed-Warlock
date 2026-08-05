@@ -13,7 +13,7 @@ main { overflow-x: clip; }
 .threshold-navigation a { min-width: 132px; padding: 14px 20px; border: 1px solid var(--ink); text-align: center; transition: color .2s, background .2s, border-color .2s; }
 .threshold-navigation a[aria-current="page"] { color: var(--paper); background: var(--ink); }
 .threshold-navigation a:hover, .threshold-navigation a:focus-visible { color: var(--paper); border-color: var(--rust); background: var(--rust); }
-.threshold-welcome { min-height: calc(100svh - 96px); padding: clamp(64px, 7vw, 110px) clamp(24px, 6vw, 110px); display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(310px, .65fr); align-items: center; gap: clamp(48px, 7vw, 120px); position: relative; }
+.threshold-welcome { min-height: calc(100svh - 96px); padding: clamp(64px, 7vw, 110px) clamp(24px, 6vw, 110px); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(400px, .85fr); align-items: center; gap: clamp(48px, 5vw, 90px); position: relative; }
 .threshold-welcome::after { content: ""; width: 430px; height: 430px; position: absolute; right: -220px; bottom: -210px; border: 1px solid var(--line); border-radius: 50%; pointer-events: none; }
 .threshold-copy { max-width: 850px; }
 .threshold-copy h1 { margin-top: 18px; font-size: clamp(64px, 8vw, 116px); }
@@ -28,7 +28,7 @@ main { overflow-x: clip; }
 .threshold-paths a { padding: 16px 18px; border: 1px solid var(--ink); text-align: center; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; transition: color .2s, background .2s, border-color .2s; }
 .threshold-paths a:last-child { color: var(--paper); background: var(--ink); }
 .threshold-paths a:hover, .threshold-paths a:focus-visible { color: var(--paper); border-color: var(--rust); background: var(--rust); }
-.threshold-gallery { width: min(29vw, 410px); margin: 0; justify-self: center; display: grid; justify-items: center; gap: 20px; }
+.threshold-gallery { width: min(36vw, 560px); margin: 0; justify-self: center; display: grid; justify-items: center; gap: 20px; }
 .threshold-gallery figcaption { color: var(--rust); font-family: var(--font-display), serif; font-size: 18px; font-style: italic; letter-spacing: .045em; text-align: center; }
 .threshold-frame { width: 100%; position: relative; background: #2a160d; border: clamp(30px, 3.2vw, 48px) solid transparent; border-image: url("/threshold/frame.webp") 200 190 220 190 / 1 / 0 stretch; filter: drop-shadow(0 24px 22px rgba(34, 18, 8, .28)); transform: rotate(.4deg); }
 .threshold-frame-inner { width: 100%; aspect-ratio: 2 / 3; overflow: hidden; position: relative; border: 4px solid #160a04; background: #23150d; box-shadow: inset 0 0 24px rgba(0, 0, 0, .75); }
