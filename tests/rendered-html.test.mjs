@@ -87,6 +87,7 @@ test("keeps The Tappery, locked Doors, and account creation reachable from Heart
   assert.match(html, /The Noticeboard/);
   assert.match(html, /Publishing tools for the master OAW account are coming soon/);
   assert.match(html, /Rest by the Hearth/);
+  assert.match(html, /Settle into the warmth, close your eyes, and let your mind wander/);
   assert.match(html, /Close your eyes/);
   assert.doesNotMatch(html, /Every great story starts around a table/);
 });

@@ -69,7 +69,7 @@ export default function Hearthall() {
         <div className="hearthall-dream-copy">
           <p className="section-label">A quiet place beside the fire</p>
           <h2>Rest by the Hearth</h2>
-          <p>Settle into the warmth, close your eyes, and drift into a dream chosen by the Hearthall.</p>
+          <p>Settle into the warmth, close your eyes, and let your mind wander...</p>
           <HearthDream />
         </div>
       </section>
