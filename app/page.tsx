@@ -21,23 +21,42 @@ export default function Threshold() {
           <div className="threshold-rule" aria-hidden="true"><span /></div>
           <div className="threshold-text">
             <p>
-              The One-Armed Warlock is a gathering place for creators,
-              storytellers, artists, and adventurers united by a shared passion
-              for building worlds, crafting unforgettable experiences, and
-              celebrating the spirit of imagination.
+              Legends tell of an impossible doorway that appears where it is
+              least expected. Beyond its weathered stone frame lies not another
+              road, but a warm hearth, good company, and a place where every
+              story is welcome.
             </p>
             <p>
-              Beyond this threshold lie two paths. <strong>Hearthall</strong> is
-              home to our projects, chronicles, and creations, where new ideas are
-              forged and shared. <strong>The Tappery</strong> offers a place to rest by
-              the hearth, enjoy a drink with fellow Patrons, and become part of our
-              growing community.
+              The One-Armed Warlock was inspired by that simple idea.
             </p>
             <p>
-              Whether you have come seeking inspiration, fellowship, or simply a
-              quiet place to linger for a while, you are warmly welcomed. Pull up a
-              chair—the fire is lit, the mugs are full, and your place has been
-              waiting for you.
+              We are a community of tabletop roleplaying enthusiasts,
+              worldbuilders, artists, and storytellers dedicated to creating
+              immersive fantasy experiences and sharing them with others. From
+              original game systems and digital tools to artwork, lore, music,
+              and adventures, everything we build begins with a love of
+              imagination and a desire to bring people together.
+            </p>
+            <p>
+              Beyond this threshold you&apos;ll find <strong>Hearthall</strong>, the
+              heart of our community, where the latest news, chronicles, and
+              creations are shared. Wander over to <strong>the Tappery</strong>, meet
+              Hearthmother Yerma, enjoy a drink, and become part of our growing
+              fellowship.
+            </p>
+            <p>
+              Those who linger a little longer may discover that The One-Armed
+              Warlock holds more than first meets the eye. Hidden doors,
+              forgotten halls, and new adventures await those willing to
+              explore.
+            </p>
+            <p>
+              Whether you&apos;ve come to explore the world of Occura, discover
+              hidden legends, find inspiration for your next adventure, or
+              simply relax by the fire for a while, you&apos;re among friends.
+            </p>
+            <p>
+              The fire is lit. The mugs are full. Welcome!
             </p>
           </div>
           <nav className="threshold-paths" aria-label="Continue beyond the Threshold">

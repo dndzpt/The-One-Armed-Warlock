@@ -39,7 +39,9 @@ test("renders the Threshold with both paths", async () => {
   const html = await response.text();
   assert.equal(response.status, 200);
   assert.match(html, /Welcome, traveler/);
-  assert.match(html, /Beyond this threshold lie two paths/);
+  assert.match(html, /Legends tell of an impossible doorway/);
+  assert.match(html, /world of Occura/);
+  assert.match(html, /The fire is lit\. The mugs are full\. Welcome!/);
   assert.match(html, /href="\/" aria-current="page">The Threshold/);
   assert.match(html, /class="threshold-paths"/);
   assert.match(html, /class="threshold-navigation"[^>]*><a href="\/" aria-current="page">The Threshold<\/a><\/nav>/);
