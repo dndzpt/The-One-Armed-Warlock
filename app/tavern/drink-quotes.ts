@@ -87,6 +87,13 @@ export const steadyWarnings = [
   "Take a breath between cups, dear. The night is young, and the hearth isn't going anywhere.",
 ];
 
+export const steadyHeadings = [
+  "You feel a tingling in your fingers...",
+  "A warm tingle reaches your fingertips...",
+  "Your fingers begin to feel strangely light...",
+  "A gentle fizz dances through your hands...",
+];
+
 export const hearthInterventions = [
   "Don't worry, I've got you. Let's set you down by the hearth to rest your head for a while...",
   "That's enough adventuring for one evening. Come along; the hearth has a quiet place for you.",
@@ -94,6 +101,13 @@ export const hearthInterventions = [
   "The room has started wandering, hasn't it? I've got you. Let's sit by the fire a while.",
   "No shame in resting, dear. The hearth is warm, and I'll make sure you reach it safely.",
   "Yerma's orders: no more cups, only a soft chair and a little sleep beside the fire.",
+];
+
+export const unfocusedHeadings = [
+  "You lose focus...",
+  "The room slips out of focus...",
+  "The lanternlight begins to swim...",
+  "The edges of the Tappery soften...",
 ];
 
 export const hearthRestLabels = [

@@ -207,10 +207,16 @@ test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream
   assert.match(purchaseSource, /recentDrinkCount >= 4/);
   assert.match(purchaseSource, /recentDrinkCount >= 3/);
   assert.match(purchaseSource, /randomItem\(steadyWarnings\)/);
+  assert.match(purchaseSource, /randomItem\(steadyHeadings\)/);
   assert.match(purchaseSource, /randomItem\(hearthInterventions\)/);
+  assert.match(purchaseSource, /randomItem\(unfocusedHeadings\)/);
+  assert.match(purchaseSource, /INTERVENTION_BLUR_MS = 5000/);
+  assert.match(purchaseSource, /yermaMode !== "intervention" \|\| interventionReady/);
   assert.match(purchaseSource, /<HearthDreamOverlay/);
   assert.match(quotesSource, /Steady there, traveler\. These pours are brewed strong!/);
+  assert.match(quotesSource, /You feel a tingling in your fingers/);
   assert.match(quotesSource, /Don't worry, I've got you\. Let's set you down by the hearth/);
+  assert.match(quotesSource, /You lose focus/);
   assert.match(tavernCss, /\.yerma-toast-backdrop\.inebriation-backdrop/);
   assert.match(tavernCss, /backdrop-filter:blur\(24px\)/);
 });
