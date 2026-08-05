@@ -34,7 +34,7 @@ test("renders the public Tappery", async () => {
   assert.match(html, /Discord[\s\S]*YouTube[\s\S]*Instagram/);
 });
 
-test("renders the Threshold with both paths", async () => {
+test("renders the Threshold with a single Hearthall entrance", async () => {
   const response = await render("/");
   const html = await response.text();
   assert.equal(response.status, 200);
@@ -45,8 +45,8 @@ test("renders the Threshold with both paths", async () => {
   assert.match(html, /href="\/" aria-current="page">The Threshold/);
   assert.match(html, /class="threshold-paths"/);
   assert.match(html, /class="threshold-navigation"[^>]*><a href="\/" aria-current="page">The Threshold<\/a><\/nav>/);
-  assert.match(html, /Enter Hearthall/);
-  assert.match(html, /Visit the Tappery/);
+  assert.match(html, /Enter the OAW Hearthall/);
+  assert.doesNotMatch(html, /Visit the Tappery/);
   assert.doesNotMatch(html, /href="\/patrons">Join/);
 });
 
@@ -69,7 +69,7 @@ test("randomizes the framed Threshold artwork on each visit", async () => {
   assert.match(globalCss, /\.threshold-paths \{ grid-template-columns: 1fr; \}/);
 });
 
-test("keeps The Tappery and account creation reachable from Hearthall on mobile", async () => {
+test("keeps The Tappery, locked Doors, and account creation reachable from Hearthall on mobile", async () => {
   const response = await render("/hearthall");
   const html = await response.text();
   assert.match(html, /aria-label="Main mobile navigation"/);
@@ -79,7 +79,9 @@ test("keeps The Tappery and account creation reachable from Hearthall on mobile"
   assert.match(html, /href="\/patrons">Join/);
   assert.doesNotMatch(html, /Create an account/);
   assert.match(html, /class="button secondary" href="\/patrons">Join<\/a>/);
-  assert.match(html, /Explore[\s\S]*Join[\s\S]*Connect/);
+  assert.match(html, /Doors[\s\S]*Guildhall[\s\S]*Library[\s\S]*Music Chamber[\s\S]*Gallery[\s\S]*Join[\s\S]*Connect/);
+  assert.doesNotMatch(html, />About<\/a>/);
+  assert.doesNotMatch(html, />Explore<\/a>/);
   assert.match(html, /Welcome to Hearthall/);
 });
 
@@ -88,6 +90,18 @@ test("mobile navigation expands accessibly and closes after selection", async ()
   assert.match(source, /aria-expanded=\{open\}/);
   assert.match(source, /setOpen\(\(current\) => !current\)/);
   assert.match(source, /onClick=\{\(\) => setOpen\(false\)\}/);
+  assert.match(source, /event\.key === "Escape"/);
+});
+
+test("shows an accessible locked Doors menu", async () => {
+  const source = await readFile(new URL("../app/doors-menu.tsx", import.meta.url), "utf8");
+  assert.match(source, /Guildhall/);
+  assert.match(source, /Library/);
+  assert.match(source, /Music Chamber/);
+  assert.match(source, /Gallery/);
+  assert.match(source, /Guild Key not yet acquired\./);
+  assert.match(source, /aria-expanded=\{open\}/);
+  assert.match(source, /role="status"/);
   assert.match(source, /event\.key === "Escape"/);
 });
 

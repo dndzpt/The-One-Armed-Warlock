@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import DoorsMenu from "../doors-menu";
 import MobileNavigation from "../mobile-navigation";
 import PatronNavigationLink from "../patron-navigation-link";
 
@@ -24,16 +25,14 @@ export default function Hearthall() {
         <nav aria-label="Hearthall navigation">
           <a href="/">The Threshold</a>
           <a href="/tappery">The Tappery</a>
-          <a href="#about">About</a>
-          <a href="#explore">Explore</a>
+          <DoorsMenu />
           <PatronNavigationLink />
           <a href="#connect">Connect</a>
         </nav>
         <MobileNavigation items={[
           { href: "/", label: "The Threshold" },
           { href: "/tappery", label: "The Tappery" },
-          { href: "#about", label: "About" },
-          { href: "#explore", label: "Explore" },
+          { label: "Doors", doors: true },
           { href: "/patrons", label: "Join" },
           { href: "#connect", label: "Connect" },
         ]} />

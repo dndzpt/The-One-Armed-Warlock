@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import DoorsMenu from "./doors-menu";
 import { usePatronNavigationLabel } from "./patron-navigation-link";
 
 type NavigationItem = {
-  href: string;
+  href?: string;
   label: string;
+  doors?: boolean;
 };
 
 export default function MobileNavigation({
@@ -55,7 +57,9 @@ export default function MobileNavigation({
         aria-label={`${theme === "tavern" ? "Tappery" : "Main"} mobile navigation`}
         hidden={!open}
       >
-        {items.map((item) => (
+        {items.map((item) => item.doors ? (
+          <DoorsMenu key="doors" />
+        ) : (
           <a key={`${item.href}-${item.label}`} href={item.href} onClick={() => setOpen(false)}>
             {item.href === "/patrons" ? patronLabel : item.label}
           </a>
