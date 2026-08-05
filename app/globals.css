@@ -47,8 +47,8 @@ nav a:hover::after, nav a:focus-visible::after { right: 0; }
 .doors-trigger { border: 0; padding: 0; display: inline-flex; align-items: center; gap: 7px; color: inherit; background: transparent; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
 .doors-trigger::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -7px; height: 1px; background: var(--rust); transition: right .2s; }
 .doors-trigger:hover::after, .doors-trigger:focus-visible::after, .doors-trigger[aria-expanded="true"]::after { right: 0; }
-.doors-chevron { display: inline-block; font-size: 16px; line-height: .5; transition: transform .2s ease; }
-.doors-trigger[aria-expanded="true"] .doors-chevron { transform: rotate(180deg); }
+.doors-chevron { display: inline-block; font-size: 16px; line-height: 1; transform: translateY(-1px); transition: transform .2s ease; }
+.doors-trigger[aria-expanded="true"] .doors-chevron { transform: translateY(-1px) rotate(180deg); }
 .doors-dropdown { width: 230px; position: absolute; z-index: 70; top: calc(100% + 22px); left: 50%; padding: 9px 18px 16px; color: var(--ink); background: rgba(244, 240, 231, .98); border: 1px solid rgba(90, 79, 61, .25); box-shadow: 0 18px 35px rgba(23, 22, 17, .16); transform: translateX(-50%); backdrop-filter: blur(18px); }
 .doors-dropdown[hidden] { display: none; }
 .doors-destination { width: 100%; border: 0; border-bottom: 1px solid rgba(90, 79, 61, .16); padding: 14px 0; color: inherit; background: transparent; font: inherit; font-size: 11px; letter-spacing: .12em; text-align: left; text-transform: uppercase; cursor: pointer; }
