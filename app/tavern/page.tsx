@@ -28,12 +28,11 @@ export default function TapperyPage() {
           <span>The One-Armed Warlock</span>
         </Link>
         <nav aria-label="Tappery navigation">
-          <Link href="/">The Threshold</Link><Link href="/hearthall">Hearthall</Link><a href="#menu">The Bar</a><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
+          <Link href="/">The Threshold</Link><Link href="/hearthall">Hearthall</Link><a href="#noticeboard">Noticeboard</a><PatronNavigationLink /><a href="#connect">Connect</a>
         </nav>
         <MobileNavigation theme="tavern" items={[
           { href: "/", label: "The Threshold" },
           { href: "/hearthall", label: "Hearthall" },
-          { href: "#menu", label: "The Bar" },
           { href: "#noticeboard", label: "Noticeboard" },
           { href: "/patrons", label: "Join" },
           { href: "#connect", label: "Connect" },
@@ -59,7 +58,7 @@ export default function TapperyPage() {
       </section>
 
       <section className="tavern-menu" id="menu">
-        <div className="tavern-section-heading"><div><p className="tavern-label">From behind the bar</p><h2>Tonight’s pours</h2></div><p>Our opening menu — names, stories, and prices may deepen as the cellar grows.</p></div>
+        <div className="tavern-section-heading"><div><p className="tavern-label">From The Tap</p><h2>Tonight’s pours</h2></div><p>Our opening menu — names, stories, and prices may deepen as the cellar grows.</p></div>
         <div className="drink-grid">
           {drinks.map((drink) => (
             <article className={`drink-card${drink.featured ? " featured" : ""}`} key={drink.name}>

@@ -26,9 +26,10 @@ test("renders the public Tappery", async () => {
   assert.match(html, /Copper Coins/);
   assert.match(html, /Hearthmother/);
   assert.doesNotMatch(html, /Chief Barmaid/i);
-  assert.match(html, /The Threshold[\s\S]*Hearthall[\s\S]*The Bar[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
-  assert.match(html, /href="#menu">The Bar<\/a>/);
+  assert.match(html, /The Threshold[\s\S]*Hearthall[\s\S]*Noticeboard[\s\S]*Join[\s\S]*Connect/);
+  assert.doesNotMatch(html, /href="#menu">The Bar<\/a>/);
   assert.doesNotMatch(html, /href="#menu">Drinks<\/a>/);
+  assert.match(html, /From The Tap/);
   assert.match(html, /id="connect"/);
   assert.match(html, /Discord[\s\S]*YouTube[\s\S]*Instagram/);
 });
