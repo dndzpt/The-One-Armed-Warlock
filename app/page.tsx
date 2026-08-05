@@ -17,7 +17,7 @@ export default function Threshold() {
       <section className="threshold-welcome" aria-labelledby="threshold-title">
         <div className="threshold-copy">
           <p className="eyebrow">The Threshold</p>
-          <h1 id="threshold-title">Welcome, traveler.</h1>
+          <h1 id="threshold-title">Welcome, Traveler.</h1>
           <div className="threshold-rule" aria-hidden="true"><span /></div>
           <div className="threshold-text">
             <p>

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: "Cross the threshold into The One-Armed Warlock Hearthall and The Tappery.",
   icons: { icon: "/oaw-logo.png", shortcut: "/oaw-logo.png" },
   openGraph: {
-    title: "Welcome, traveler | The One-Armed Warlock",
+    title: "Welcome, Traveler | The One-Armed Warlock",
     description: "Two paths await: enter Hearthall or pull up a chair in The Tappery.",
     url: "/",
     siteName: "The One-Armed Warlock",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Welcome, traveler | The One-Armed Warlock",
+    title: "Welcome, Traveler | The One-Armed Warlock",
     description: "Two paths await: enter Hearthall or pull up a chair in The Tappery.",
     images: ["/og.png"],
   },
