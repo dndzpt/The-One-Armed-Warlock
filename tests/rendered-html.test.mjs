@@ -92,7 +92,8 @@ test("mobile navigation expands accessibly and closes after selection", async ()
   assert.match(source, /onClick=\{\(\) => setOpen\(false\)\}/);
   assert.match(source, /event\.key === "Escape"/);
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
-  assert.match(css, /\.doors-chevron \{[^}]*line-height: 1;[^}]*translateY\(-1px\)/);
+  assert.match(css, /\.doors-chevron \{[^}]*border-top: 5px solid currentColor/);
+  assert.match(css, /\.doors-trigger\[aria-expanded="true"\] \.doors-chevron \{[^}]*border-bottom: 5px solid currentColor/);
 });
 
 test("shows an accessible locked Doors menu", async () => {

@@ -41,7 +41,7 @@ export default function DoorsMenu() {
         }}
       >
         <span>Doors</span>
-        <span className="doors-chevron" aria-hidden="true">⌄</span>
+        <span className="doors-chevron" aria-hidden="true" />
       </button>
       <div className="doors-dropdown" id={menuId} hidden={!open}>
         {lockedDoors.map((door) => (
