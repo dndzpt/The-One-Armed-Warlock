@@ -42,7 +42,7 @@ export default function Threshold() {
           </div>
           <nav className="threshold-paths" aria-label="Continue beyond the Threshold">
             <Link href="/hearthall">Enter Hearthall</Link>
-            <Link href="/tappery">Enter the Tappery</Link>
+            <Link href="/tappery">Visit the Tappery</Link>
           </nav>
         </div>
         <ThresholdGallery />

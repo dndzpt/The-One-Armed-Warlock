@@ -43,7 +43,7 @@ test("renders the Threshold with both paths", async () => {
   assert.match(html, /class="threshold-paths"/);
   assert.match(html, /class="threshold-navigation"[^>]*><a href="\/" aria-current="page">The Threshold<\/a><\/nav>/);
   assert.match(html, /Enter Hearthall/);
-  assert.match(html, /Enter the Tappery/);
+  assert.match(html, /Visit the Tappery/);
   assert.doesNotMatch(html, /href="\/patrons">Join/);
 });
 

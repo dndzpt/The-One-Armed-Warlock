@@ -247,7 +247,7 @@ export default function PatronAuth() {
       </form>}
 
       {view === "login" && <form onSubmit={login}>
-        <p className="form-eyebrow">Already in the ledger?</p><h2>Enter the Tappery</h2>
+        <p className="form-eyebrow">Already in the ledger?</p><h2>Visit the Tappery</h2>
         <label>Email address<input name="email" type="email" autoComplete="email" required /></label>
         <label>Password<input name="password" type="password" autoComplete="current-password" required /></label>
         <button className="primary-button" disabled={busy}>{busy ? "Checking the ledger…" : "Sign in"}</button>

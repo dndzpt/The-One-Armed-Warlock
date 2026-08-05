@@ -45,7 +45,7 @@ export default function Hearthall() {
           <h1>Every great story starts around a table.</h1>
           <p className="intro">Welcome to Hearthall — home to our party, our game world, and the tales we create together one roll at a time.</p>
           <div className="hero-actions">
-            <a className="button" href="/tappery">Enter the Tappery <span aria-hidden="true">→</span></a>
+            <a className="button" href="/tappery">Visit the Tappery <span aria-hidden="true">→</span></a>
             <PatronNavigationLink className="button secondary" />
           </div>
         </div>
