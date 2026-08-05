@@ -87,18 +87,19 @@ h1 { font-size: clamp(62px, 8vw, 124px); max-width: 940px; letter-spacing: -.04e
 .hero-mark img { width: min(28vw, 310px); filter: sepia(.2); }
 .hero-mark span { color: var(--muted); font-family: var(--font-display), serif; font-style: italic; font-size: 18px; }
 
-.hearthall-welcome { min-height: 760px; padding: 100px clamp(24px, 8vw, 130px); display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); align-items: center; gap: clamp(55px, 7vw, 110px); position: relative; overflow: hidden; }
-.hearthall-welcome::before { content: ""; width: 500px; height: 500px; position: absolute; top: 90px; right: -190px; border: 1px solid var(--line); border-radius: 50%; }
-.hearthall-welcome-copy { position: relative; z-index: 1; }
+.hearthall-welcome { min-height: 820px; padding: 100px clamp(24px, 8vw, 130px); display: flex; align-items: center; position: relative; overflow: hidden; color: #fff1d7; background-image: linear-gradient(90deg, rgba(14, 8, 4, .94) 0%, rgba(20, 11, 6, .86) 36%, rgba(20, 11, 6, .52) 61%, rgba(20, 11, 6, .16) 100%), url("/hearthall-hero-v3.png"); background-position: center; background-size: cover; }
+.hearthall-welcome::before { display: none; }
+.hearthall-welcome-copy { width: min(53%, 820px); position: relative; z-index: 1; }
 .hearthall-welcome h1 { max-width: 900px; margin-top: 18px; font-size: clamp(68px, 8vw, 120px); }
-.hearthall-lede { max-width: 760px; margin: 34px 0 24px; color: var(--rust); font-family: var(--font-display), serif; font-size: clamp(25px, 2.5vw, 38px); line-height: 1.25; }
-.hearthall-welcome-text { max-width: 760px; color: var(--muted); font-size: 17px; line-height: 1.8; }
+.hearthall-welcome .eyebrow { color: #e3aa76; }
+.hearthall-lede { max-width: 760px; margin: 34px 0 24px; color: #efb27d; font-family: var(--font-display), serif; font-size: clamp(25px, 2.5vw, 38px); line-height: 1.25; }
+.hearthall-welcome-text { max-width: 760px; color: #ddd2c2; font-size: 17px; line-height: 1.8; text-shadow: 0 1px 12px rgba(0, 0, 0, .42); }
 .hearthall-welcome-text p { margin: 0 0 18px; }
-.hearthall-welcome-text strong { color: var(--ink); }
+.hearthall-welcome-text strong { color: #fff1d7; }
 .hearthall-welcome .hero-actions { margin-top: 32px; }
-.hearthall-mark { width: min(42vw, 650px); margin: 0; position: relative; z-index: 1; justify-self: center; display: grid; justify-items: center; gap: 4px; }
-.hearthall-mark img { width: 100%; display: block; mix-blend-mode: multiply; -webkit-mask-image: radial-gradient(ellipse 82% 78% at center, #000 62%, rgba(0, 0, 0, .88) 74%, transparent 100%); mask-image: radial-gradient(ellipse 82% 78% at center, #000 62%, rgba(0, 0, 0, .88) 74%, transparent 100%); }
-.hearthall-mark figcaption { color: var(--muted); font-family: var(--font-display), serif; font-size: 18px; font-style: italic; }
+.hearthall-welcome .button { color: #23140c; background: #f1dfbe; }
+.hearthall-welcome .button:hover { color: #fff; background: var(--rust); }
+.hearthall-welcome .button.secondary { color: #fff1d7; border-color: rgba(255, 241, 215, .7); background: rgba(16, 9, 5, .26); }
 .hearthall-noticeboard { padding: 120px clamp(24px, 8vw, 130px); display: grid; grid-template-columns: .85fr 1fr; align-items: center; gap: clamp(55px, 8vw, 130px); color: var(--paper); background: var(--ink); }
 .hearthall-section-copy h2, .hearthall-dream h2 { margin: 18px 0 26px; font-size: clamp(52px, 7vw, 88px); }
 .hearthall-section-copy > p:last-child { max-width: 590px; color: #b9b3a7; font-size: 18px; line-height: 1.8; }
@@ -182,7 +183,8 @@ footer p:last-child { text-align: right; }
   .mobile-navigation { display: block; }
   .hero { min-height: auto; padding-top: 70px; grid-template-columns: 1fr; gap: 55px; }
   .hero-mark { display: none; }
-  .hearthall-welcome { min-height: auto; padding-top: 72px; grid-template-columns: 1fr; }
+  .hearthall-welcome { min-height: auto; padding-top: 72px; padding-bottom: 72px; background-image: linear-gradient(90deg, rgba(14, 8, 4, .9), rgba(20, 11, 6, .72)), url("/hearthall-hero-v3.png"); background-position: 58% center; }
+  .hearthall-welcome-copy { width: 100%; }
   .hearthall-mark { display: none; }
   .hearthall-noticeboard { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; gap: 25px; }

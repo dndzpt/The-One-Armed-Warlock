@@ -48,10 +48,6 @@ export default function Hearthall() {
             <PatronNavigationLink className="button secondary" />
           </div>
         </div>
-        <figure className="hearthall-mark">
-          <img src="/hearthall-hearth.png" alt="A welcoming medieval hearth surrounded by comfortable chairs" />
-          <figcaption>There is room by the fire</figcaption>
-        </figure>
       </section>
 
       <section className="hearthall-noticeboard" id="noticeboard">
