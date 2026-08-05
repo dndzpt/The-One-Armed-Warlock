@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import DoorsMenu from "../doors-menu";
+import HearthDream from "../hearth-dream";
 import MobileNavigation from "../mobile-navigation";
 import PatronNavigationLink from "../patron-navigation-link";
 
@@ -68,8 +69,8 @@ export default function Hearthall() {
         <div className="hearthall-dream-copy">
           <p className="section-label">A quiet place beside the fire</p>
           <h2>Rest by the Hearth</h2>
-          <p>Soon, any traveler may settle into the warmth, close their eyes, and drift into a dream chosen by the Hearthall.</p>
-          <button type="button" disabled>Dreams are gathering</button>
+          <p>Settle into the warmth, close your eyes, and drift into a dream chosen by the Hearthall.</p>
+          <HearthDream />
         </div>
       </section>
 

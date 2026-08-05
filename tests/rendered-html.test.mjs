@@ -87,8 +87,26 @@ test("keeps The Tappery, locked Doors, and account creation reachable from Heart
   assert.match(html, /The Noticeboard/);
   assert.match(html, /Publishing tools for the master OAW account are coming soon/);
   assert.match(html, /Rest by the Hearth/);
-  assert.match(html, /Dreams are gathering/);
+  assert.match(html, /Close your eyes/);
   assert.doesNotMatch(html, /Every great story starts around a table/);
+});
+
+test("offers every visitor a randomized, accessible Hearth dream", async () => {
+  const [dreamSource, dreamsSource, globalCss] = await Promise.all([
+    readFile(new URL("../app/hearth-dream.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/hearth-dreams.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.equal((dreamsSource.match(/\{ title:/g) || []).length, 50);
+  assert.match(dreamSource, /crypto\.getRandomValues/);
+  assert.match(dreamSource, /randomItem\(hearthDreams\)/);
+  assert.match(dreamSource, /randomItem\(awakeningPhrases\)/);
+  assert.match(dreamSource, /role="dialog"/);
+  assert.match(dreamSource, /aria-modal="true"/);
+  assert.match(dreamSource, /event\.key === "Escape"/);
+  assert.match(dreamSource, /autoFocus/);
+  assert.match(globalCss, /animation: hearth-fall-asleep 1\.65s/);
+  assert.match(globalCss, /@media \(prefers-reduced-motion: reduce\)/);
 });
 
 test("mobile navigation expands accessibly and closes after selection", async () => {
