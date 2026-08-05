@@ -40,9 +40,8 @@ test("renders the Threshold with both paths", async () => {
   assert.match(html, /Welcome, traveler/);
   assert.match(html, /Beyond this threshold lie two paths/);
   assert.match(html, /href="\/" aria-current="page">The Threshold/);
-  assert.match(html, /href="\/guild-hall">Guild Hall/);
-  assert.match(html, /href="\/tavern">Tavern/);
-  assert.match(html, /class="threshold-mobile-paths"/);
+  assert.match(html, /class="threshold-paths"/);
+  assert.match(html, /class="threshold-navigation"[^>]*><a href="\/" aria-current="page">The Threshold<\/a><\/nav>/);
   assert.match(html, /Enter the Guild Hall/);
   assert.match(html, /Enter the Tavern/);
   assert.doesNotMatch(html, /href="\/patrons">Join/);
@@ -62,8 +61,8 @@ test("randomizes the framed Threshold artwork on each visit", async () => {
   assert.match(globalCss, /border-image:\s*url\("\/threshold\/frame\.webp"\)/);
   assert.doesNotMatch(globalCss, /repeating-linear-gradient\(4deg/);
   assert.match(globalCss, /\.threshold-gallery \{ width: min\(72vw, 390px\)/);
-  assert.match(globalCss, /\.threshold-navigation a:not\(\[aria-current="page"\]\) \{ display: none; \}/);
-  assert.match(globalCss, /\.threshold-mobile-paths \{ margin-top: 34px; display: grid/);
+  assert.match(globalCss, /\.threshold-paths \{ margin-top: 34px; display: grid/);
+  assert.match(globalCss, /\.threshold-paths \{ grid-template-columns: 1fr; \}/);
 });
 
 test("keeps tavern and account creation reachable from the Guild Hall on mobile", async () => {

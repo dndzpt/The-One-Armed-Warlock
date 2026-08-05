@@ -11,8 +11,6 @@ export default function Threshold() {
         </Link>
         <nav className="threshold-navigation" aria-label="Choose your destination">
           <Link href="/" aria-current="page">The Threshold</Link>
-          <Link href="/guild-hall">Guild Hall</Link>
-          <Link href="/tavern">Tavern</Link>
         </nav>
       </header>
 
@@ -42,7 +40,7 @@ export default function Threshold() {
               waiting for you.
             </p>
           </div>
-          <nav className="threshold-mobile-paths" aria-label="Continue beyond the Threshold">
+          <nav className="threshold-paths" aria-label="Continue beyond the Threshold">
             <Link href="/guild-hall">Enter the Guild Hall</Link>
             <Link href="/tavern">Enter the Tavern</Link>
           </nav>
