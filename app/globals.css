@@ -24,6 +24,7 @@ main { overflow-x: clip; }
 .threshold-text p { margin: 0 0 20px; }
 .threshold-text p:last-child { margin-bottom: 0; }
 .threshold-text strong { color: var(--ink); font-weight: 650; }
+.threshold-mobile-paths { display: none; }
 .threshold-gallery { width: min(29vw, 410px); margin: 0; justify-self: center; display: grid; justify-items: center; gap: 20px; }
 .threshold-gallery figcaption { color: var(--rust); font-family: var(--font-display), serif; font-size: 18px; font-style: italic; letter-spacing: .045em; text-align: center; }
 .threshold-frame { width: 100%; position: relative; background: #2a160d; border: clamp(30px, 3.2vw, 48px) solid transparent; border-image: url("/threshold/frame.webp") 200 190 220 190 / 1 / 0 stretch; filter: drop-shadow(0 24px 22px rgba(34, 18, 8, .28)); transform: rotate(.4deg); }
@@ -127,10 +128,15 @@ footer p:last-child { text-align: right; }
 @media (max-width: 520px) {
   .threshold-header { padding: 0 18px; }
   .threshold-navigation { gap: 6px; }
-  .threshold-navigation a { min-width: auto; padding: 11px 9px; font-size: 9px; letter-spacing: .08em; }
+  .threshold-navigation a:not([aria-current="page"]) { display: none; }
+  .threshold-navigation a { min-width: auto; padding: 11px 14px; font-size: 10px; letter-spacing: .08em; }
   .threshold-welcome { padding: 56px 22px 72px; align-items: start; }
   .threshold-copy h1 { font-size: clamp(54px, 17vw, 78px); }
   .threshold-text { font-size: 16px; line-height: 1.65; }
+  .threshold-mobile-paths { margin-top: 34px; display: grid; gap: 10px; }
+  .threshold-mobile-paths a { width: 100%; padding: 16px 18px; border: 1px solid var(--ink); text-align: center; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+  .threshold-mobile-paths a:last-child { color: var(--paper); background: var(--ink); }
+  .threshold-mobile-paths a:hover, .threshold-mobile-paths a:focus-visible { color: var(--paper); border-color: var(--rust); background: var(--rust); }
   .threshold-gallery { width: min(86vw, 360px); }
   .site-header { padding: 0 18px; }
   .brand span { display: none; }

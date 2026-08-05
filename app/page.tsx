@@ -42,6 +42,10 @@ export default function Threshold() {
               waiting for you.
             </p>
           </div>
+          <nav className="threshold-mobile-paths" aria-label="Continue beyond the Threshold">
+            <Link href="/guild-hall">Enter the Guild Hall</Link>
+            <Link href="/tavern">Enter the Tavern</Link>
+          </nav>
         </div>
         <ThresholdGallery />
       </section>
