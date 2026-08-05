@@ -213,6 +213,8 @@ test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream
   assert.match(purchaseSource, /INTERVENTION_BLUR_MS = 5000/);
   assert.match(purchaseSource, /yermaMode !== "intervention" \|\| interventionReady/);
   assert.match(purchaseSource, /<HearthDreamOverlay/);
+  assert.match(purchaseSource, /window\.location\.assign\("\/hearthall#hearth"\)/);
+  assert.match(purchaseSource, /onAwaken=\{awakenInHearthall\}/);
   assert.match(quotesSource, /Steady there, traveler\. These pours are brewed strong!/);
   assert.match(quotesSource, /You feel a tingling in your fingers/);
   assert.match(quotesSource, /Don't worry, I've got you\. Let's set you down by the hearth/);

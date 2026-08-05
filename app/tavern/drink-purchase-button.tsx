@@ -69,6 +69,11 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
     else setYermaQuote("");
   }
 
+  function awakenInHearthall() {
+    setDream(null);
+    window.location.assign("/hearthall#hearth");
+  }
+
   async function selectDrink() {
     setCheckingBalance(true); setMessage(""); setIsError(false);
     const { data, error } = await supabase.rpc("claim_daily_allowance");
@@ -166,6 +171,6 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
         <button className="yerma-toast-enjoy" autoFocus onClick={finishYermaMessage}>{enjoymentLabel}</button>
       </section> : <span className="inebriation-status" role="status">Your vision blurs. Yerma is beside you.</span>}
     </div>}
-    {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningLabel} onAwaken={() => setDream(null)} /> : null}
+    {dream ? <HearthDreamOverlay dream={dream} awakeningPhrase={awakeningLabel} onAwaken={awakenInHearthall} /> : null}
   </>;
 }
