@@ -34,7 +34,7 @@ export default function ThresholdGallery() {
           )}
         </div>
       </div>
-      <figcaption>The door is never where you left it.</figcaption>
+      <figcaption>The door that isn&apos;t there...</figcaption>
     </figure>
   );
 }

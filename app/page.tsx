@@ -40,7 +40,7 @@ export default function Threshold() {
             <p>
               Beyond this threshold you&apos;ll find <strong>Hearthall</strong>, the
               heart of our community, where the latest news, chronicles, and
-              creations are shared. Wander over to <strong>the Tappery</strong>, meet
+              creations are shared. Wander over to the <strong>Tappery</strong>, meet
               Hearthmother Yerma, enjoy a drink, and become part of our growing
               fellowship.
             </p>

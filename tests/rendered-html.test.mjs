@@ -58,7 +58,7 @@ test("randomizes the framed Threshold artwork on each visit", async () => {
   assert.match(gallerySource, /length: 13/);
   assert.match(gallerySource, /crypto\.getRandomValues/);
   assert.match(gallerySource, /thresholdImages\[randomImageIndex\(\)\]/);
-  assert.match(gallerySource, /The door is never where you left it/);
+  assert.match(gallerySource, /The door that isn&apos;t there\.\.\./);
   assert.match(globalCss, /\.threshold-frame/);
   assert.match(globalCss, /aspect-ratio:\s*2 \/ 3/);
   assert.match(globalCss, /border-image:\s*url\("\/threshold\/frame\.webp"\)/);
