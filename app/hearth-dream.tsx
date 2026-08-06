@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { hearthDreams } from "./hearth-dreams";
+import { supabase } from "./lib/supabase";
 
 const awakeningPhrases = [
   "Awaken",
@@ -100,6 +101,9 @@ export default function HearthDream() {
   };
 
   const beginDream = () => {
+    void supabase.auth.getSession().then(({ data }) => {
+      if (data.session) return supabase.rpc("record_patron_nap");
+    });
     setDream(randomItem(hearthDreams));
     setAwakeningPhrase(randomItem(awakeningPhrases));
   };

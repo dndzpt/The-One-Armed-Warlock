@@ -3,10 +3,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
+import { claimPatronAllowance } from "../lib/patron-allowance";
 
 type View = "register" | "verify" | "login" | "forgot";
 type TodayOrder = { id: number; quantity: number; total_price_copper: number; status: string; purchased_at: string; drink_name: string };
 type DrinkTotal = { drink_id: number; drink_name: string; total_quantity: number };
+type PatronStats = { visits: number; naps_taken: number; warnings_received: number; times_passed_out: number };
 const UNLIMITED_COPPER = 2147483647;
 
 export default function PatronAuth() {
@@ -20,6 +22,7 @@ export default function PatronAuth() {
   const [profileName, setProfileName] = useState("");
   const [todayOrders, setTodayOrders] = useState<TodayOrder[]>([]);
   const [drinkTotals, setDrinkTotals] = useState<DrinkTotal[]>([]);
+  const [patronStats, setPatronStats] = useState<PatronStats>({ visits: 0, naps_taken: 0, warnings_received: 0, times_passed_out: 0 });
   const [balance, setBalance] = useState(0);
   const [allowanceMessage, setAllowanceMessage] = useState("");
   const [ledgerError, setLedgerError] = useState("");
@@ -39,21 +42,22 @@ export default function PatronAuth() {
 
   useEffect(() => {
     if (!session) {
-      setProfileName(""); setTodayOrders([]); setDrinkTotals([]); setBalance(0); setAllowanceMessage(""); setLedgerError("");
+      setProfileName(""); setTodayOrders([]); setDrinkTotals([]); setPatronStats({ visits: 0, naps_taken: 0, warnings_received: 0, times_passed_out: 0 }); setBalance(0); setAllowanceMessage(""); setLedgerError("");
       return;
     }
     let active = true;
     async function loadLedger() {
-      const allowanceResult = await supabase.rpc("claim_daily_allowance");
-      const [profileResult, todayOrdersResult, drinkTotalsResult] = await Promise.all([
+      const allowanceResult = await claimPatronAllowance(session!.user.id).then((data) => ({ data, error: null })).catch((error) => ({ data: null, error }));
+      const [profileResult, todayOrdersResult, drinkTotalsResult, statsResult] = await Promise.all([
         supabase.from("patron_profiles").select("display_name").eq("id", session!.user.id).single(),
         supabase.rpc("get_my_orders_today"),
         supabase.rpc("get_my_drink_totals"),
+        supabase.rpc("get_my_patron_stats"),
       ]);
       if (!active) return;
-      const error = allowanceResult.error || profileResult.error || todayOrdersResult.error || drinkTotalsResult.error;
+      const error = allowanceResult.error || profileResult.error || todayOrdersResult.error || drinkTotalsResult.error || statsResult.error;
       if (error) return setLedgerError("The ledger could not be opened just now. Please refresh and try again.");
-      const allowance = allowanceResult.data?.[0] as { balance: number; awarded: boolean; amount: number } | undefined;
+      const allowance = allowanceResult.data;
       setProfileName(profileResult.data.display_name);
       setBalance(allowance?.balance || 0);
       setAllowanceMessage(allowance?.balance === UNLIMITED_COPPER
@@ -63,6 +67,7 @@ export default function PatronAuth() {
           : "Today’s allowance is already safely tucked into your purse.");
       setTodayOrders((todayOrdersResult.data || []) as TodayOrder[]);
       setDrinkTotals((drinkTotalsResult.data || []) as DrinkTotal[]);
+      setPatronStats(((statsResult.data || [])[0] || { visits: 0, naps_taken: 0, warnings_received: 0, times_passed_out: 0 }) as PatronStats);
       setLedgerError("");
     }
     loadLedger();
@@ -206,12 +211,19 @@ export default function PatronAuth() {
             <b className="debit">−{order.total_price_copper}</b>
           </article>)}
         </div>
-        <div className="ledger-history tavern-totals">
-          <div><span>Tappery Totals</span><strong>Lifetime pours</strong></div>
-          {drinkTotals.map((drink) => <article key={drink.drink_id}>
-            <p><strong>{drink.drink_name}</strong><small>All visits</small></p>
-            <b>{drink.total_quantity}</b>
-          </article>)}
+        <div className="patron-statistics">
+          <div className="statistics-heading"><span>Patron Statistics</span><strong>Your life at the OAW</strong></div>
+          <table>
+            <thead><tr><th scope="col">Tale recorded</th><th scope="col">Total</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Visits to the OAW</th><td>{patronStats.visits}</td></tr>
+              <tr><th scope="row">Naps taken</th><td>{patronStats.naps_taken}</td></tr>
+              <tr><th scope="row">Warnings from Yerma received</th><td>{patronStats.warnings_received}</td></tr>
+              <tr><th scope="row">Times passed out</th><td>{patronStats.times_passed_out}</td></tr>
+              <tr className="statistics-subheading"><th scope="row" colSpan={2}>Drinks Enjoyed</th></tr>
+              {drinkTotals.map((drink) => <tr key={drink.drink_id}><th scope="row">{drink.drink_name}</th><td>{drink.total_quantity}</td></tr>)}
+            </tbody>
+          </table>
         </div>
         {session.user.app_metadata?.role === "admin" && <a className="admin-office-link" href="/stewards-office">Enter the Steward’s Office</a>}
         <button className="secondary-button" onClick={logout} disabled={busy}>Sign out</button>

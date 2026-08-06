@@ -149,26 +149,27 @@ test("shows My Ledger in site navigation for signed-in patrons", async () => {
 });
 
 test("awards daily Copper Coins and protects Tavern purchases", async () => {
-  const [ledgerSource, navigationSource, purchaseSource, tavernSource] = await Promise.all([
+  const [ledgerSource, allowanceSource, purchaseSource, tavernSource] = await Promise.all([
     readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/patron-navigation-link.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/lib/patron-allowance.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/tavern/drink-purchase-button.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/tavern/page.tsx", import.meta.url), "utf8"),
   ]);
-  assert.match(ledgerSource, /rpc\("claim_daily_allowance"\)/);
+  assert.match(ledgerSource, /claimPatronAllowance\(session!\.user\.id\)/);
   assert.match(ledgerSource, /today’s 10 Copper Coins/);
-  assert.match(navigationSource, /rpc\("claim_daily_allowance"\)/);
+  assert.match(allowanceSource, /rpc\("claim_daily_allowance"\)/);
+  assert.match(allowanceSource, /const claims = new Map/);
   assert.match(purchaseSource, /rpc\("purchase_drink"/);
   assert.match(purchaseSource, /Not enough Copper Coins/);
   assert.match(ledgerSource, /rpc\("get_my_orders_today"\)/);
   assert.match(ledgerSource, /rpc\("get_my_drink_totals"\)/);
   assert.match(ledgerSource, /Today&apos;s Orders/);
-  assert.match(ledgerSource, /Tappery Totals/);
+  assert.match(ledgerSource, /Patron Statistics/);
   assert.doesNotMatch(ledgerSource, /Coin ledger/);
   assert.doesNotMatch(ledgerSource, /Purchase records/);
   assert.match(ledgerSource, /balance === UNLIMITED_COPPER \? "Unlimited" : balance/);
   assert.match(purchaseSource, /Unlimited Copper Coins remain/);
-  assert.match(purchaseSource, /rpc\("claim_daily_allowance"\)/);
+  assert.match(purchaseSource, /claimPatronAllowance\(session!\.user\.id\)/);
   assert.match(purchaseSource, /After this order, \$\{projectedBalance\} Copper Coins will remain/);
   assert.match(purchaseSource, /Confirm order/);
   assert.match(purchaseSource, /Select this drink/);
@@ -202,11 +203,9 @@ test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream
     readFile(new URL("../app/tavern/drink-quotes.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/tavern/tavern.css", import.meta.url), "utf8"),
   ]);
-  assert.match(purchaseSource, /FIVE_MINUTES_MS = 5 \* 60 \* 1000/);
-  assert.match(purchaseSource, /\.eq\("patron_id", session\.user\.id\)/);
-  assert.match(purchaseSource, /\.gte\("purchased_at", fiveMinutesAgo\)/);
-  assert.match(purchaseSource, /recentDrinkCount >= 4/);
-  assert.match(purchaseSource, /recentDrinkCount >= 3/);
+  assert.match(purchaseSource, /rapid_drink_stage/);
+  assert.match(purchaseSource, /result\?\.rapid_drink_stage === 4/);
+  assert.match(purchaseSource, /result\?\.rapid_drink_stage === 3/);
   assert.match(purchaseSource, /randomItem\(steadyWarnings\)/);
   assert.match(purchaseSource, /randomItem\(steadyHeadings\)/);
   assert.match(purchaseSource, /randomItem\(hearthInterventions\)/);
@@ -214,7 +213,7 @@ test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream
   assert.match(purchaseSource, /INTERVENTION_BLUR_MS = 5000/);
   assert.match(purchaseSource, /yermaMode !== "intervention" \|\| interventionReady/);
   assert.match(dreamSource, /<HearthDreamOverlay/);
-  assert.match(purchaseSource, /window\.localStorage\.setItem\(resetKey, String\(Date\.now\(\)\)\)/);
+  assert.doesNotMatch(purchaseSource, /oaw-drink-window-reset/);
   assert.match(purchaseSource, /window\.sessionStorage\.setItem\(transportedDreamKey/);
   assert.match(purchaseSource, /FALL_ASLEEP_MS = 1700/);
   assert.match(purchaseSource, /router\.replace\("\/hearthall\?rest=1#hearth", \{ scroll: false \}\)/);
@@ -228,6 +227,28 @@ test("warns rapid drinkers and settles a fourth-order patron into a Hearth dream
   assert.match(quotesSource, /You lose focus/);
   assert.match(tavernCss, /\.yerma-toast-backdrop\.inebriation-backdrop/);
   assert.match(tavernCss, /backdrop-filter:blur\(24px\)/);
+});
+
+test("welcomes each patron once per day and shows an extensible private statistics table", async () => {
+  const [welcomeSource, ledgerSource, dreamSource, layoutSource] = await Promise.all([
+    readFile(new URL("../app/daily-patron-welcome.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/patrons/patron-auth.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/hearth-dream.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(layoutSource, /<DailyPatronWelcome \/>/);
+  assert.match(welcomeSource, /result\?\.welcomed/);
+  assert.match(welcomeSource, /10 Copper Coins have been added to your purse/);
+  assert.match(welcomeSource, /role="dialog"/);
+  assert.match(welcomeSource, /crypto\.getRandomValues/);
+  assert.match(ledgerSource, /rpc\("get_my_patron_stats"\)/);
+  assert.match(ledgerSource, /Visits to the OAW/);
+  assert.match(ledgerSource, /Naps taken/);
+  assert.match(ledgerSource, /Warnings from Yerma received/);
+  assert.match(ledgerSource, /Times passed out/);
+  assert.match(ledgerSource, /Drinks Enjoyed/);
+  assert.match(ledgerSource, /<table>/);
+  assert.match(dreamSource, /rpc\("record_patron_nap"\)/);
 });
 
 test("keeps navigation visible while pages scroll", async () => {

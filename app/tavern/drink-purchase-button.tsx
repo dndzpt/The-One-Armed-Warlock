@@ -6,13 +6,12 @@ import type { Session } from "@supabase/supabase-js";
 import { transportedDreamKey } from "../hearth-dream";
 import { hearthDreams } from "../hearth-dreams";
 import { supabase } from "../lib/supabase";
+import { claimPatronAllowance } from "../lib/patron-allowance";
 import { drinkQuotes, enjoymentLabels, hearthInterventions, hearthRestLabels, steadyHeadings, steadyResponseLabels, steadyWarnings, unfocusedHeadings } from "./drink-quotes";
 
-type PurchaseResult = { balance: number; tavern_message: string };
-type AllowanceResult = { balance: number; awarded: boolean; amount: number };
+type PurchaseResult = { balance: number; tavern_message: string; rapid_drink_stage: number };
 type YermaMode = "drink" | "warning" | "intervention";
 const UNLIMITED_COPPER = 2147483647;
-const FIVE_MINUTES_MS = 5 * 60 * 1000;
 const INTERVENTION_BLUR_MS = 5000;
 const FALL_ASLEEP_MS = 1700;
 const awakeningLabels = ["Awaken", "Open your eyes", "Return to the firelight", "Wake by the Hearth", "Let the dream fade", "Stir from your slumber", "Return to the Hearthall", "Rise gently"];
@@ -79,15 +78,14 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
 
   async function selectDrink() {
     setCheckingBalance(true); setMessage(""); setIsError(false);
-    const { data, error } = await supabase.rpc("claim_daily_allowance");
+    const data = await claimPatronAllowance(session!.user.id).catch(() => null);
     setCheckingBalance(false);
-    if (error) {
+    if (!data) {
       setIsError(true);
       setMessage("Yerma cannot open your coin purse just now. Please try again.");
       return;
     }
-    const result = (data?.[0] || null) as AllowanceResult | null;
-    setConfirmationBalance(result?.balance ?? 0);
+    setConfirmationBalance(data.balance);
   }
 
   async function purchase() {
@@ -108,26 +106,13 @@ export default function DrinkPurchaseButton({ drinkId, drinkName, price }: { dri
       : "Yerma has entered your order.");
     setConfirmationBalance(null);
 
-    const resetKey = `oaw-drink-window-reset:${session.user.id}`;
-    const priorReset = Number(window.localStorage.getItem(resetKey) || 0);
-    const windowStart = Math.max(Date.now() - FIVE_MINUTES_MS, priorReset);
-    const fiveMinutesAgo = new Date(windowStart).toISOString();
-    const { data: recentPurchases } = await supabase
-      .from("purchases")
-      .select("quantity")
-      .eq("patron_id", session.user.id)
-      .eq("status", "completed")
-      .gte("purchased_at", fiveMinutesAgo);
-    const recentDrinkCount = recentPurchases?.reduce((total, recent) => total + recent.quantity, 0) ?? 0;
-
-    if (recentDrinkCount >= 4) {
-      window.localStorage.setItem(resetKey, String(Date.now()));
+    if (result?.rapid_drink_stage === 4) {
       setInterventionReady(false);
       setYermaMode("intervention");
       setYermaHeading(randomItem(unfocusedHeadings));
       setYermaQuote(randomItem(hearthInterventions));
       setEnjoymentLabel(randomItem(hearthRestLabels));
-    } else if (recentDrinkCount >= 3) {
+    } else if (result?.rapid_drink_stage === 3) {
       setInterventionReady(true);
       setYermaMode("warning");
       setYermaHeading(randomItem(steadyHeadings));

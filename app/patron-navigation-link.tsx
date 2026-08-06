@@ -9,11 +9,9 @@ export function usePatronNavigationLabel() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setLabel(data.session ? "My Ledger" : "Join");
-      if (data.session) void supabase.rpc("claim_daily_allowance");
     });
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       setLabel(session ? "My Ledger" : "Join");
-      if (session) void supabase.rpc("claim_daily_allowance");
     });
     return () => data.subscription.unsubscribe();
   }, []);
