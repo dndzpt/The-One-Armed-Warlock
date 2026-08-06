@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Hearthall() {
   return (
     <main>
-      <header className="site-header">
+      <header className="site-header hearthall-header">
         <a className="brand" href="#top" aria-label="Hearthall home">
           <img src="/oaw-logo.png" alt="The One-Armed Warlock logo" />
           <span>The One-Armed Warlock</span>
